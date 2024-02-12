@@ -9,29 +9,36 @@ class User extends Model
 {
     protected $table = 'users';
     protected $primaryKey = 'id_user';
-
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
-
+    public $timestamps = false;
     protected $fillable = [
         'username',
         'email',
         'password',
-        'points',
-        'quizzes_resolved',
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
+
     protected $hidden = [
         'password',
     ];
+
+    public static function rulesForUsers(): array
+    {
+        return [
+            'username' => 'required|string|max:30|unique:users',
+            'email' => 'required|string|max:100|unique:users',
+            'password' => 'required|string|max:40',
+
+        ];
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+        static::creating(function ($user) {
+            $user->points = 0;
+            $user->quizzes_resolved=0;
+        });
+    }
 
 
 }
