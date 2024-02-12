@@ -63,6 +63,7 @@ class QuestionController extends Controller
             'correct_option',
         ]));
 
+        $question->save();
         return response()->json($question);
 
     }
