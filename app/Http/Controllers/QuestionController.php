@@ -17,7 +17,6 @@ class QuestionController extends Controller
 
     public function getRandomQuestions($numberQuestionsNeeded): \Illuminate\Http\JsonResponse
     {
-        //$results = Question::take(25)->get();
         $totalQuestions = $this->allQuestions();
         $arrayOfAllQuestions = json_decode($totalQuestions->getContent(), true);;
 
