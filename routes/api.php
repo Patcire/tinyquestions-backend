@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\QuestionController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,12 +22,22 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('ques')->group(function () {
 
     Route::get('/all',  [QuestionController::class, 'allQuestions']);
-    Route::get('/rand/{n}',  [QuestionController::class, 'getRandomQuestions']);
+    Route::get('/rand/{number}',  [QuestionController::class, 'getRandomQuestions']);
     Route::get('/{id}',  [QuestionController::class, 'getById']);
     Route::post('/create',  [QuestionController::class, 'createQuestion']);
     Route::patch('/upd/{id}',  [QuestionController::class, 'updateQuestion']);
     Route::delete('/del/{id}',  [QuestionController::class, 'deleteQuestion']);
 
+});
+
+// users CRUD
+Route::prefix('user')->group(function () {
+
+    Route::get('/all',  [UserController::class, 'allUsers']);
+    Route::get('/{nick}',  [UserController::class, 'getByUsername']);
+    Route::post('/create',  [UserController::class, 'createUser']);
+    Route::put('/upd/{id}',  [UserController::class, 'updateUser']);
+    Route::delete('/del/{username}',  [UserController::class, 'deleteByUsername']);
 
 });
 
