@@ -9,24 +9,24 @@ DROP TABLE IF EXISTS quiz_has_questions;
 
 CREATE TABLE users (
                        id_user BIGINT PRIMARY KEY AUTO_INCREMENT,
-                       username VARCHAR(30),
-                       email VARCHAR(100),
+                       username VARCHAR(30)  UNIQUE,
+                       email VARCHAR(100) UNIQUE,
                        password VARCHAR(40),
                        points INT,
                        quizzes_resolved INT
 );
 
 CREATE TABLE quizzes (
-                         id BIGINT PRIMARY KEY AUTO_INCREMENT,
+                         id_quiz BIGINT PRIMARY KEY AUTO_INCREMENT,
                          n_questions INT,
                          type ENUM('custom', 'quick', 'mirror', 'exploding', 'zen'),
-                         clock ENUM('yes', 'no'),
-                         time INT CHECK (time >= 5)
+                         clock BOOL,
+                         time INT
     );
 
 CREATE TABLE questions (
                            id_question BIGINT PRIMARY KEY AUTO_INCREMENT,
-                           title VARCHAR(60),
+                           title VARCHAR(60) UNIQUE,
                            option_a VARCHAR(30),
                            option_b VARCHAR(30),
                            option_c VARCHAR(30),
@@ -36,8 +36,8 @@ CREATE TABLE questions (
 
 CREATE TABLE custom_quizzes (
                                 id_quiz BIGINT PRIMARY KEY,
-                                clock ENUM('yes', 'no'),
-                                time INT CHECK (time >= 5),
+                                clock BOOL,
+                                time INT,
     fk_id_user BIGINT,
     FOREIGN KEY (fk_id_user) REFERENCES users(id_user)
 );
@@ -46,7 +46,7 @@ CREATE TABLE quiz_has_questions (
                                     id_quiz BIGINT,
                                     id_question BIGINT,
                                     PRIMARY KEY (id_quiz, id_question),
-                                    FOREIGN KEY (id_quiz) REFERENCES quizzes(id),
+                                    FOREIGN KEY (id_quiz) REFERENCES quizzes(id_quiz),
                                     FOREIGN KEY (id_question) REFERENCES questions(id_question)
 );
 
@@ -64,7 +64,7 @@ CREATE TABLE matches (
                          right_answers INT,
                          PRIMARY KEY (id_user, id_quiz),
                          FOREIGN KEY (id_user) REFERENCES users(id_user),
-                         FOREIGN KEY (id_quiz) REFERENCES quizzes(id)
+                         FOREIGN KEY (id_quiz) REFERENCES quizzes(id_quiz)
 );
 
 CREATE TABLE likes (
@@ -72,5 +72,5 @@ CREATE TABLE likes (
                        id_quiz BIGINT,
                        PRIMARY KEY (id_user, id_quiz),
                        FOREIGN KEY (id_user) REFERENCES users(id_user),
-                       FOREIGN KEY (id_quiz) REFERENCES quizzes(id)
+                       FOREIGN KEY (id_quiz) REFERENCES quizzes(id_quiz)
 );

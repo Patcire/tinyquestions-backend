@@ -18,7 +18,7 @@ class Question extends Model
     {
 
         return [
-            'title' => 'required|string|max:60',
+            'title' => 'required|string|max:60|unique:questions',
             'option_a' => 'required|string|max:30',
             'option_b' => 'required|string|max:30',
             'option_c' => 'required|string|max:30',
