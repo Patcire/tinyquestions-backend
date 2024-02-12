@@ -2,21 +2,19 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Validation\Rule;
 
+use Illuminate\Database\Eloquent\Model;
 class Question extends Model
 {
-    //use HasFactory;
 
+    public $timestamps = false;
     protected $table = 'questions';
     protected $primaryKey = 'id_question';
-    protected $fillable = ['id_question', 'title', 'option_a', 'option_b', 'option_c',
-        'correct_option', 'points'];
+    protected $fillable = ['title', 'option_a', 'option_b', 'option_c',
+        'correct_option'];
 
 
-    public static function rules(): array
+    public static function rulesForUsers(): array
     {
 
         return [
@@ -25,9 +23,18 @@ class Question extends Model
             'option_b' => 'required|string|max:30',
             'option_c' => 'required|string|max:30',
             'correct_option' => 'required',
-            'points' => 'required|integer'
             ];
 
     }
+
+    protected static function boot()
+    {
+        parent::boot();
+        static::creating(function ($question) {
+            $question->points = 10;
+        });
+    }
+
+
 }
 
