@@ -5,7 +5,7 @@ ____
 =
 ---
 
-![diagram for my database](/00-images-readme/diagram.png)
-![diagram for my database](/00-images-readme/tables-norm.JPG)
+![diagram for my database](/00-images-readme/diagrama-actual.png)
+![diagram for my database](/00-images-readme/actual-norm.JPG)
 
 

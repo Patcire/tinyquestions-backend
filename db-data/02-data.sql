@@ -27,3 +27,43 @@ INSERT INTO questions (id_question, title, option_a, option_b, option_c, correct
 (26, '"Red Planet"?', 'Mars', 'Venus', 'Jupiter', 'Mars', 10),
 (27, 'Australia capital city?', 'Canberra', 'Sydney', 'Melbourne', 'Canberra', 10),
 (28, '"To Kill a Mockingbird" author?', 'Harper Lee', 'John Steinbeck', 'Ernest Hemingway', 'Harper Lee', 10);
+
+-- the other tables
+
+-- Insertar usuarios
+INSERT INTO users (username, email, password, points, quizzes_resolved)
+VALUES
+    ('usuario1', 'usuario1@example.com', 'contraseña1', 100, 5),
+    ('usuario2', 'usuario2@example.com', 'contraseña2', 75, 3),
+    ('usuario3', 'usuario3@example.com', 'contraseña3', 50, 2);
+
+-- Insertar seguidores
+INSERT INTO followers (id_user_follow, id_user_followed)
+VALUES
+    (1, 2),
+    (1, 3),
+    (2, 1),
+    (3, 1);
+
+-- Insertar cuestionarios personalizados
+INSERT INTO custom_quizzes (id_quiz, n_questions, clock, time, fk_id_user)
+VALUES
+    (1, 10, 60, 10, 1),
+    (2, 8, 45, 8, 2),
+    (3, 12, 90, 15, 3);
+
+-- Insertar partidas
+INSERT INTO matches (id_user, id_custom_quiz, right_answers)
+VALUES
+    (1, 1, 8),
+    (1, 2, 6),
+    (2, 1, 7),
+    (3, 3, 10);
+
+-- Insertar likes
+INSERT INTO likes (id_user, id_quiz)
+VALUES
+    (1, 2),
+    (1, 3),
+    (2, 1),
+    (3, 1);

@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\unused;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Quiz;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 
 class Match extends Model

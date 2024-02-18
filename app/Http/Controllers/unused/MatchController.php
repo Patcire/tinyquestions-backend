@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\unused;
 
-use App\Models\Match;
+use App\Http\Controllers\Controller;
+use App\Models\unused\Match;
 use Illuminate\Http\Request;
 
 class MatchController extends Controller
