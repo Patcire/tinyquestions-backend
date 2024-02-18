@@ -37,7 +37,7 @@ class UserController extends Controller
     {
 
         $userSelected = User::where('username', $username)->firstOrFail();
-        $request->validate(User::rulesForUsers());
+       $request->validate(User::rulesForUsers());
         $userSelected-> fill($request->only([
             'username',
             'email',

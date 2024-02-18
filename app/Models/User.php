@@ -30,7 +30,14 @@ class User extends Model
 
         ];
     }
-
+    public static function rulesForUpdateUsers(): array
+    {
+        return [
+            'username' => 'sometimes|required|string|max:30|unique:users,username',
+            'email' => 'sometimes|required|string|max:100|unique:users,email',
+            'password' => 'required|string|max:40',
+        ];
+        }
     protected static function boot()
     {
         parent::boot();
