@@ -22,7 +22,7 @@ CREATE TABLE quizzes (
                          type ENUM('custom', 'quick', 'mirror', 'exploding', 'zen'),
                          clock BOOL,
                          time INT
-    );
+);
 
 CREATE TABLE questions (
                            id_question BIGINT PRIMARY KEY AUTO_INCREMENT,

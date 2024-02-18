@@ -34,10 +34,10 @@ Route::prefix('ques')->group(function () {
 Route::prefix('user')->group(function () {
 
     Route::get('/all',  [UserController::class, 'allUsers']);
-    Route::get('/{nick}',  [UserController::class, 'getByUsername']);
+    Route::get('/{username}',  [UserController::class, 'getByUsername']);
     Route::post('/create',  [UserController::class, 'createUser']);
     Route::delete('/del/{username}',  [UserController::class, 'deleteByUsername']);
-    Route::patch('/upd/{nick}',  [UserController::class, 'updateUser']);
+    Route::patch('/upd/{username}',  [UserController::class, 'updateUser']);
 });
 
 
