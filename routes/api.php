@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\CustomQuizController;
 use App\Http\Controllers\QuestionController;
+use App\Http\Controllers\QuizController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -41,6 +43,25 @@ Route::prefix('user')->group(function () {
 });
 
 
+// quizzes CRUD
+Route::prefix('quiz')->group(function () {
+
+    Route::get('/all',  [QuizController::class, 'allQuizzes']);
+    Route::get('/{id}',  [QuizController::class, 'getQuiz']);
+    Route::post('/create',  [QuizController::class, 'createQuiz']);
+    //Route::delete('/del/{id}',  [UserController::class, 'deleteQuiz']);
+    //Route::patch('/upd/{id}',  [UserController::class, 'updateQuiz']);
+});
+
+// custom_quizzes CRUD
+Route::prefix('cust')->group(function () {
+
+    Route::get('/all',  [CustomQuizController::class, 'allCustoms']);
+    Route::get('/{id}',  [CustomQuizController::class, 'getCustom']);
+    Route::post('/create',  [CustomQuizController::class, 'createCustom']);
+    Route::delete('/del/{id}',  [CustomQuizController::class, 'deleteCustom']);
+    Route::patch('/upd/{id}',  [CustomQuizController::class, 'updateCustom']);
+});
 
 
 

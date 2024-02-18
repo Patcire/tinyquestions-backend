@@ -38,7 +38,7 @@ CREATE TABLE custom_quizzes (
                                 id_quiz BIGINT PRIMARY KEY,
                                 clock BOOL,
                                 time INT,
-    fk_id_user BIGINT,
+                                fk_id_user BIGINT,
     FOREIGN KEY (fk_id_user) REFERENCES users(id_user)
 );
 

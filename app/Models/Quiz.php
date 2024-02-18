@@ -12,8 +12,8 @@ class Quiz extends Model
 
     protected $table = 'quizzes';
     protected $primaryKey = 'id_quiz';
-
-    protected $fillable = ['id_quiz', 'n_questions', 'type', 'clock', 'time'];
+    public $timestamps = false;
+    protected $fillable = ['n_questions', 'type', 'clock', 'time'];
 
     public static function rules(): array
     {
@@ -24,5 +24,11 @@ class Quiz extends Model
             'time' => 'integer|min:5'
         ];
     }
+
+    public function quizType()
+    {
+        return $this->morphTo();
+    }
+
 
 }
