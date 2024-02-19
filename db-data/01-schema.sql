@@ -18,17 +18,17 @@ CREATE TABLE `followers` (
                             `id_user_follow` BIGINT,
                             `id_user_followed` BIGINT,
                             PRIMARY KEY (`id_user_follow`, `id_user_followed`),
-                            FOREIGN KEY (`id_user_follow`) REFERENCES `users`(`id_user`),
-                            FOREIGN KEY (`id_user_followed`) REFERENCES `users`(`id_user`)
+                            FOREIGN KEY (`id_user_follow`) REFERENCES `users`(`id_user`) ON DELETE CASCADE,
+                            FOREIGN KEY (`id_user_followed`) REFERENCES `users`(`id_user`) ON DELETE CASCADE
 );
 
 CREATE TABLE `custom_quizzes` (
-                          `id_quiz` BIGINT PRIMARY KEY,
+                          `id_quiz` BIGINT AUTO_INCREMENT PRIMARY KEY,
                           `n_questions` INT,
                           `clock` INT,
                           `time` INT CHECK (time >= 5),
                           `fk_id_user` BIGINT,
-                          FOREIGN KEY (`fk_id_user`) REFERENCES `users`(`id_user`)
+                          FOREIGN KEY (`fk_id_user`) REFERENCES `users`(`id_user`) ON DELETE CASCADE
 );
 
 
@@ -38,16 +38,18 @@ CREATE TABLE `matches` (
                          `right_answers` INT,
                          PRIMARY KEY (`id_user`, `id_custom_quiz`),
                          FOREIGN KEY (`id_user`) REFERENCES `users`(`id_user`),
-                         FOREIGN KEY (`id_custom_quiz`) REFERENCES `custom_quizzes`(`id_quiz`)
+                         FOREIGN KEY (`id_custom_quiz`) REFERENCES `custom_quizzes`(`id_quiz`) ON DELETE CASCADE
 );
 
 CREATE TABLE `likes` (
-                         `id_user` BIGINT,
-                         `id_quiz` BIGINT,
-                         PRIMARY KEY (`id_user`, `id_quiz`),
-                         FOREIGN KEY (`id_user`) REFERENCES `users`(`id_user`),
-                         FOREIGN KEY (`id_quiz`) REFERENCES `custom_quizzes`(`id_quiz`)
+                         `id_like` BIGINT AUTO_INCREMENT PRIMARY KEY,
+                         `fk_id_user` BIGINT,
+                         `fk_id_quiz` BIGINT,
+                         FOREIGN KEY (`fk_id_user`) REFERENCES `users`(`id_user`) ON DELETE CASCADE,
+                         FOREIGN KEY (`fk_id_quiz`) REFERENCES `custom_quizzes`(`id_quiz`) ON DELETE CASCADE,
+                         UNIQUE KEY `unique_like_user_quiz` (`fk_id_user`, `fk_id_quiz`)
 );
+
 
 CREATE TABLE `custom_questions` (
                                     `id_question` BIGINT AUTO_INCREMENT PRIMARY KEY,
@@ -58,7 +60,7 @@ CREATE TABLE `custom_questions` (
                                     `correct_option` VARCHAR(30),
                                     `points` INT,
                                     `fk_id_quiz` BIGINT,
-                                    FOREIGN KEY (`fk_id_quiz`) REFERENCES `custom_quizzes`(`id_quiz`)
+                                    FOREIGN KEY (`fk_id_quiz`) REFERENCES `custom_quizzes`(`id_quiz`) ON DELETE CASCADE
 );
 
 -- QUESTIONS FROM APP

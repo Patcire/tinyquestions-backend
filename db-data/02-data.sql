@@ -61,7 +61,7 @@ VALUES
     (3, 3, 10);
 
 -- Insertar likes
-INSERT INTO likes (id_user, id_quiz)
+INSERT INTO likes (fk_id_user, fk_id_quiz)
 VALUES
     (1, 2),
     (1, 3),

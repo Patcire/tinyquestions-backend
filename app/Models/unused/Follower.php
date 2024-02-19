@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\unused;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 
 class Follower extends Model

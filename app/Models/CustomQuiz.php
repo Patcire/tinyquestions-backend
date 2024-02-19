@@ -12,15 +12,21 @@ class CustomQuiz extends Model
 
     protected $table = 'custom_quizzes';
     protected $primaryKey  = 'id_quiz';
-
-    protected $fillable = ['n_questions', 'type', 'clock',
+    public $timestamps = false;
+    protected $fillable = ['n_questions', 'clock',
         'time', 'fk_id_user'];
 
     public static function rules(): array
     {
         return [
             'n_questions' => 'required|integer',
-            'type' => ['required', 'string', Rule::in(['custom'])],
+            'clock' => 'required|boolean',
+            'time' => 'integer|min:5'
+        ];
+    }
+    public static function rulesForUpdate(): array
+    {
+        return [
             'clock' => 'required|boolean',
             'time' => 'integer|min:5'
         ];
@@ -29,11 +35,6 @@ class CustomQuiz extends Model
     public function createdBy()
     {
         return $this->belongsTo(User::class, 'id_user', 'id_user');
-    }
-
-    public function quiz()
-    {
-        return $this->morphOne(Quiz::class, 'quizType');
     }
 
 

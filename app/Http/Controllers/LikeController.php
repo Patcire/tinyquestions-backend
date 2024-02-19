@@ -2,70 +2,70 @@
 
 namespace App\Http\Controllers;
 
+
+use App\Models\CustomQuiz;
 use App\Models\Like;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class LikeController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function index()
+
+    public function all()
     {
-        $like = Like::all();
-        return response()->json($like);
+        $likes = Like::all();
+        return response()->json($likes);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function store(Request $request)
+    public function likedBy($id_quiz)
     {
+        $likes = Like::where('fk_id_quiz', $id_quiz)->get();
+
+        $usersLiked = [];
+        foreach ($likes as $like) {
+            $user = User::find($like->fk_id_user);
+            if ($user) {
+                $usersLiked[] = $user;
+            }
+        }
+        return response()->json($usersLiked);
+    }
+
+    public function userLikes($id_user)
+    {
+        $likes = Like::where('fk_id_user', $id_user)->get();
+        $quizzesLiked = [];
+        foreach ($likes as $like){
+            $quiz = CustomQuiz::find($like->fk_id_quiz);
+            $quiz && $quizzesLiked[] = $quiz;
+        }
+
+        return response()->json($quizzesLiked);
+    }
+    public function giveLike(Request $request)
+    {
+        $request->validate([
+            'fk_id_user' => 'required|integer',
+            'fk_id_quiz' => 'required|integer',
+        ]);
+
         $like = Like::create($request->all());
+
         return response()->json($like, 201);
     }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function show($id)
+    public function dislike($fk_id_user, $fk_id_quiz)
     {
-        $like = Like::findOrFail($id);
-        return response()->json($like);
+        $like = Like::where('fk_id_user', $fk_id_user)
+            ->where('fk_id_quiz', $fk_id_quiz)
+            ->first();
+        if ($like) {
+            $like->delete();
+            return response()->json(null, 204);
+        } else {
+            return response()->json(['message' => 'Like not found'], 404);
+        }
+
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function update(Request $request, $id)
-    {
-        $like = Like::findOrFail($id);
-        $like->update($request->all());
-        return response()->json($like, 200);
-    }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function destroy($id)
-    {
-        $like = Like::findOrFail($id);
-        $like->delete();
-        return response()->json(null, 204);
-    }
 }

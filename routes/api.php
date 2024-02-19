@@ -1,8 +1,9 @@
 <?php
 
+use App\Http\Controllers\CustomQuestionController;
 use App\Http\Controllers\CustomQuizController;
+use App\Http\Controllers\LikeController;
 use App\Http\Controllers\QuestionController;
-use App\Http\Controllers\QuizController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -20,7 +21,7 @@ use Illuminate\Support\Facades\Route;
 
 // IMPORTANT: all routes must use prefix "/api" too ej--> /api/ques/all
 
-// question CRUD
+// question CRUD (PREGUNTAS PROPIAS DE LA APP)
 Route::prefix('ques')->group(function () {
 
     Route::get('/all',  [QuestionController::class, 'allQuestions']);
@@ -43,16 +44,6 @@ Route::prefix('user')->group(function () {
 });
 
 
-// quizzes CRUD
-Route::prefix('quiz')->group(function () {
-
-    Route::get('/all',  [QuizController::class, 'allQuizzes']);
-    Route::get('/{id}',  [QuizController::class, 'getQuiz']);
-    Route::post('/create',  [QuizController::class, 'createQuiz']);
-    //Route::delete('/del/{id}',  [UserController::class, 'deleteQuiz']);
-    //Route::patch('/upd/{id}',  [UserController::class, 'updateQuiz']);
-});
-
 // custom_quizzes CRUD
 Route::prefix('cust')->group(function () {
 
@@ -64,8 +55,27 @@ Route::prefix('cust')->group(function () {
 });
 
 
+// likes CRUD
+Route::prefix('li')->group(function () {
 
+    Route::get('/all', [LikeController::class, 'all']);
+    Route::get('/by/{fk_id_quiz}', [LikeController::class, 'likedBy']);
+    Route::get('/likes/{fk_id_user}/', [LikeController::class, 'userLikes']);
+    Route::post('/give', [LikeController::class, 'giveLike']);
+    Route::delete('/dis/{fk_id_user}/{fk_id_quiz}', [LikeController::class, 'dislike']);
 
+});
+
+// custom_questions CRUD (questions created for users)
+Route::prefix('usque')->group(function () {
+
+    Route::get('/all',  [CustomQuestionController::class, 'allCustomQuestions']);
+    Route::get('/{id_quiz}',  [CustomQuestionController::class, 'getAllCustomQuestionsFromCustomQuiz']);
+    Route::post('/create',  [CustomQuestionController::class, 'createCustomQuestion']);
+    Route::patch('/upd/{id}',  [CustomQuestionController::class, 'updateCustomQuestion']);
+    Route::delete('/del/{id}',  [CustomQuestionController::class, 'deleteCustomQuestion']);
+
+});
 
 
 /*

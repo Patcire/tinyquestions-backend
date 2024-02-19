@@ -32,7 +32,7 @@ class CustomQuizController extends Controller
     {
         $customQuiz = CustomQuiz::findOrFail($id);
         $customQuiz->update($request->all());
-        $request->validate(CustomQuiz::rules());
+        $request->validate(CustomQuiz::rulesForUpdate());
         return response()->json($customQuiz, 200);
     }
 
@@ -41,6 +41,7 @@ class CustomQuizController extends Controller
     {
         $customQuiz = CustomQuiz::findOrFail($id);
         $customQuiz->delete();
+
         return response()->json(null, 204);
     }
 }

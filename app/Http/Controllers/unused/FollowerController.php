@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\unused;
 
-use App\Models\Follower;
+use App\Http\Controllers\Controller;
+use App\Models\unused\Follower;
 use Illuminate\Http\Request;
 
 class FollowerController extends Controller
