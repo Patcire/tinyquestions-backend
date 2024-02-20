@@ -15,21 +15,31 @@ services:
             MYSQL_USER: user
             MYSQL_PASSWORD: user
             MYSQL_ROOT_PASSWORD: user
+        networks:
+            - laravel-network
 
     phpmyadmin:
         image: phpmyadmin
         ports:
-            - "8082:80"
+            - "8080:80"
         environment:
             - PMA_ARBITRARY=1
 
     laravel:
-        build:
-            context: .
-            dockerfile: Dockerfile
+        image: php:8.2-apache
         ports:
             - "8000:8000"
         volumes:
             - .:/var/www/html
         depends_on:
             - mariadb
+        command: /bin/bash -c "docker-php-ext-install pdo_mysql && php -S 0.0.0.0:8000 -t public"
+        links:
+            - mariadb
+        networks:
+            - laravel-network
+
+networks:
+    laravel-network:
+        driver: bridge
+
