@@ -1,3 +1,4 @@
+
 version: '3.1'
 
 services:
@@ -22,4 +23,13 @@ services:
         environment:
             - PMA_ARBITRARY=1
 
-
+    laravel:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        ports:
+            - "8000:8000"
+        volumes:
+            - .:/var/www/html
+        depends_on:
+            - mariadb
