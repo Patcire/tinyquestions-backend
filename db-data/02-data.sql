@@ -81,15 +81,10 @@ INSERT INTO questions (id_question, title, option_a, option_b, option_c, correct
 -- the other tables
 
 -- insert users
---INSERT INTO users (id_user, username, email, password, points, quizzes_resolved) VALUES
---(1,'pepepepe', 'pepe@gmail.com', 'pepepepe', 1568, 5),
---(2,'user2', 'user2@gmail.com', 'password2', 100, 5),
---(3, 'user3', 'user3@gmail.com', 'password3', 100, 5);
-
 INSERT INTO users (id_user, username, email, password, points, quizzes_resolved) VALUES
-(1, 'pepepepe', 'pepe@gmail.com', PASSWORD('pepepepe'), 1568, 3),
-(2, 'user2', 'user2@gmail.com', PASSWORD('password2'), 110, 1),
-(3, 'user3', 'user3@gmail.com', PASSWORD('password3'), 100, 20);
+(1,'pepepepe', 'pepe@gmail.com', 'pepepepe', 1568, 5),
+(2,'user2', 'user2@gmail.com', 'password2', 100, 5),
+(3, 'user3', 'user3@gmail.com', 'password3', 100, 5);
 
 -- insert followrs
 INSERT INTO followers (id_user_follow, id_user_followed)
