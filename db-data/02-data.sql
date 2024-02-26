@@ -79,12 +79,10 @@ INSERT INTO questions (id_question, title, option_a, option_b, option_c, correct
 (130, 'Author of Talent of Mr Ripley "', 'Patricia Highsmith', 'Susan Elderkin', 'Stanislaw Lew', 'Carol', 10);
 
 -- the other tables
-
--- insert users
 INSERT INTO users (id_user, username, email, password, points, quizzes_resolved) VALUES
-(1,'pepepepe', 'pepe@gmail.com', 'pepepepe', 1568, 5),
-(2,'user2', 'user2@gmail.com', 'password2', 100, 5),
-(3, 'user3', 'user3@gmail.com', 'password3', 100, 5);
+ (1, 'papapapa', 'pepe@gmail.com', '$2y$10$0p.yoFdkEUYUJNuNxlQwkud49Su7WE5IwpzBmFkQuxe43olXjUAf2', 1568, 5),
+ (2, 'tutututu', 'user2@gmail.com', '$2y$10$5tjFcAS03s4GIOlwF0HwVu9txIob8xwgqSvJC4PkgSTq8EKLkIah2', 100, 4),
+ (3, 'tatatata', 'user3@gmail.com', '$2y$10$53iKVgZjTPEHaY298ewgweIqeVs9dwKdR4RBBSY9EURFq1an5TYRi', 100, 3);
 
 -- insert followrs
 INSERT INTO followers (id_user_follow, id_user_followed)
@@ -99,8 +97,7 @@ INSERT INTO custom_quizzes (id_quiz, quiz_name, n_questions, clock, time, fk_id_
 VALUES
 (1,"great books",  10, true, 30, 1),
 (2,"nobel prizes", 2, true, 22, 1),
-(3,"animals", 3, 90, false, 0);
-
+(3,"animals", 3, false, 10, 1);
 
 -- insert likes
 INSERT INTO likes (fk_id_user, fk_id_quiz)
@@ -111,7 +108,6 @@ VALUES
     (3, 1);
 
 -- insert custom questions of custom quizzes
-
 INSERT INTO custom_questions (id_question, title, option_a, option_b, option_c, correct_option, points, fk_id_quiz) VALUES
 (1,'Who wrote "To Kill a Mockingbird"?', 'Harper Lee', 'F. Scott Fitzgerald', 'John Steinbeck', 'Harper Lee', 10, 1),
 (2,'In which book does the character Holden Caulfield appear?', '1984', 'The Catcher in the Rye', 'The Great Gatsby', 'The Catcher in the Rye', 10, 1),
@@ -125,10 +121,10 @@ INSERT INTO custom_questions (id_question, title, option_a, option_b, option_c, 
 (10,'In which book does the character Elizabeth Bennet appear?', 'Pride and Prejudice', 'Sense and Sensibility', 'Emma', 'Pride and Prejudice', 10, 1);
 
 INSERT INTO custom_questions (id_question, title, option_a, option_b, option_c, correct_option, points, fk_id_quiz) VALUES
-(11, 'TNT inventor?' 'nobel', 'einstein', 'colombo', 'nobel', 10, 2),
-(12, 'TNT does?' 'kboom', 'pium', 'brumbrum', 'kboom', 10, 2);
+(11, 'TNT inventor?', 'nobel', 'einstein', 'colombo', 'nobel', 10, 2),
+(12, 'TNT does?', 'kboom', 'pium', 'brumbrum', 'kboom', 10, 2);
 
 INSERT INTO custom_questions (id_question, title, option_a, option_b, option_c, correct_option, points, fk_id_quiz) VALUES
 (13,'What is the largest animal in the world?', 'Elephant', 'Blue whale', 'Gorilla', 'Blue whale', 10, 3),
 (14,'Which of these animals is a marine mammal?', 'Shark', 'Octopus', 'Dolphin', 'Dolphin', 10, 3),
-(15,'What is the fastest animal in the world?', 'Leopard', 'Cheetah', 'Eagle', 'Cheetah', 10, 3)  ;
+(15,'What is the fastest animal in the world?', 'Leopard', 'Cheetah', 'Eagle', 'Cheetah', 10, 3);
