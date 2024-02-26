@@ -7,6 +7,7 @@ use App\Exceptions\CustomNotFound;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Mockery\Exception;
 
 class UserController extends Controller
@@ -35,21 +36,37 @@ class UserController extends Controller
         return response()->json($user, 201);
     }
 
-    public function login(Request $request)
-    {
-        $credentials = $request->only('username', 'password');
-
-        if (Auth::attempt($credentials)) {
-            return response()->json(['message' => 'success login']);
-        }
-        return response()->json(['message' => 'not correct credentials'], 401);
-    }
 
     public function getByUsername($username)
     {
         $user = User::where('username', $username)->firstOrFail();
         if (!$user) throw new CustomNotFound('user not found');
         return response()->json($user);
+    }
+    public function login(Request $request)
+    {
+        $username = $request->input('username');
+        $password = $request->input('password');
+
+        $user = User::where('username', $username)->first();
+
+        if (!$user) {
+            return response()->json(['message' => 'User not found'], 404);
+        }
+
+        if (Hash::check($password, $user->password)) {
+            return response()->json([
+                'message' => 'success login',
+                'user' => [
+                    'id_user' => $user->id_user,
+                    'username' => $user->username,
+                    'points' => $user->points,
+                    'quizzes_resolved' => $user->quizzes_resolved
+                ]
+            ]);
+        } else {
+            return response()->json(['message' => 'Incorrect password'], 401);
+        }
     }
 
     public function updateUser(Request $request, $username)
