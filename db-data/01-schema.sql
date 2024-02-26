@@ -7,9 +7,9 @@ DROP TABLE IF EXISTS custom_questions;
 
 CREATE TABLE `users` (
                         `id_user` BIGINT AUTO_INCREMENT PRIMARY KEY,
-                        `username` VARCHAR(30) NOT NULL,
+                        `username` VARCHAR(30) UNIQUE NOT NULL,
                         `email` VARCHAR(100) NOT NULL,
-                        `password` VARCHAR(40) NOT NULL,
+                        `password` VARCHAR(200) NOT NULL,
                         `points` INT DEFAULT 0,
                         `quizzes_resolved` INT DEFAULT 0
 );

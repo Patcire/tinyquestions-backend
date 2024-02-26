@@ -39,10 +39,10 @@ Route::prefix('user')->group(function () {
     Route::get('/all',  [UserController::class, 'allUsers']);
     Route::get('/{username}',  [UserController::class, 'getByUsername']);
     Route::post('/create',  [UserController::class, 'createUser']);
-    Route::post('/login',  [UserController::class, 'login']);
     Route::delete('/del/{username}',  [UserController::class, 'deleteByUsername']);
     Route::patch('/upd/{username}',  [UserController::class, 'updateUser']);
     Route::patch('/stats/{username}',  [UserController::class, 'updateStats']);
+    Route::post('/login',  [UserController::class, 'login']);
 });
 
 

@@ -3,6 +3,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\ActionFails;
+use App\Exceptions\AlreadyExist;
 use App\Exceptions\CustomNotFound;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -21,7 +23,9 @@ class UserController extends Controller
 
     public function createUser(Request $request)
     {
-        $request->validate(User::rulesForUsers());
+        if (User::where('username', $request->username)->exists()) {
+            throw new AlreadyExist('Error: user already exist');
+        }
         $data = $request->only([
             'username',
             'email',
@@ -50,10 +54,9 @@ class UserController extends Controller
 
         $user = User::where('username', $username)->first();
 
-        if (!$user) {
-            return response()->json(['message' => 'User not found'], 404);
+        if (!Hash::check($password, $user->password)) {
+            return response()->json(['message' => 'not match'], 404);
         }
-
         if (Hash::check($password, $user->password)) {
             return response()->json([
                 'message' => 'success login',
@@ -64,8 +67,6 @@ class UserController extends Controller
                     'quizzes_resolved' => $user->quizzes_resolved
                 ]
             ]);
-        } else {
-            return response()->json(['message' => 'Incorrect password'], 401);
         }
     }
 

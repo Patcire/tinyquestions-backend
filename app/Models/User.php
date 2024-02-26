@@ -26,7 +26,7 @@ class User extends Model
         return [
             'username' => 'required|string|max:30|unique:users',
             'email' => 'required|string|max:100|unique:users',
-            'password' => 'required|string|max:40',
+            'password' => 'required|string|max:100',
 
         ];
     }
@@ -35,7 +35,7 @@ class User extends Model
         return [
             'username' => 'sometimes|required|string|max:30|unique:users,username',
             'email' => 'sometimes|required|string|max:100|unique:users,email',
-            'password' => 'required|string|max:40',
+            'password' => 'sometimes|string|max:100',
         ];
         }
     protected static function boot()
