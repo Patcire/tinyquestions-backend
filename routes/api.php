@@ -39,8 +39,10 @@ Route::prefix('user')->group(function () {
     Route::get('/all',  [UserController::class, 'allUsers']);
     Route::get('/{username}',  [UserController::class, 'getByUsername']);
     Route::post('/create',  [UserController::class, 'createUser']);
+    Route::post('/login',  [UserController::class, 'login']);
     Route::delete('/del/{username}',  [UserController::class, 'deleteByUsername']);
     Route::patch('/upd/{username}',  [UserController::class, 'updateUser']);
+    Route::patch('/stats/{username}',  [UserController::class, 'updateStats']);
 });
 
 
@@ -48,6 +50,7 @@ Route::prefix('user')->group(function () {
 Route::prefix('cust')->group(function () {
 
     Route::get('/all',  [CustomQuizController::class, 'allCustoms']);
+    Route::get('/all/{id_user}',  [CustomQuizController::class, 'allCustomsByUser']);
     Route::get('/{id}',  [CustomQuizController::class, 'getCustom']);
     Route::post('/create',  [CustomQuizController::class, 'createCustom']);
     Route::delete('/del/{id}',  [CustomQuizController::class, 'deleteCustom']);
@@ -58,7 +61,6 @@ Route::prefix('cust')->group(function () {
 // likes CRUD
 Route::prefix('li')->group(function () {
 
-    Route::get('/all', [LikeController::class, 'all']);
     Route::get('/by/{fk_id_quiz}', [LikeController::class, 'likedBy']);
     Route::get('/likes/{fk_id_user}/', [LikeController::class, 'userLikes']);
     Route::post('/give', [LikeController::class, 'giveLike']);
@@ -69,7 +71,6 @@ Route::prefix('li')->group(function () {
 // custom_questions CRUD (questions created for users)
 Route::prefix('usque')->group(function () {
 
-    Route::get('/all',  [CustomQuestionController::class, 'allCustomQuestions']);
     Route::get('/{id_quiz}',  [CustomQuestionController::class, 'getAllCustomQuestionsFromCustomQuiz']);
     Route::post('/create',  [CustomQuestionController::class, 'createCustomQuestion']);
     Route::patch('/upd/{id}',  [CustomQuestionController::class, 'updateCustomQuestion']);

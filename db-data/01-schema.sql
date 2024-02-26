@@ -24,8 +24,9 @@ CREATE TABLE `followers` (
 
 CREATE TABLE `custom_quizzes` (
                           `id_quiz` BIGINT AUTO_INCREMENT PRIMARY KEY,
-                          `n_questions` INT,
-                          `clock` INT,
+                          `quiz_name` VARCHAR(40) NOT NULL,
+                          `n_questions` INT NOT NULL,
+                          `clock` INT NOT NULL,
                           `time` INT CHECK (time >= 5),
                           `fk_id_user` BIGINT,
                           FOREIGN KEY (`fk_id_user`) REFERENCES `users`(`id_user`) ON DELETE CASCADE
@@ -53,11 +54,11 @@ CREATE TABLE `likes` (
 
 CREATE TABLE `custom_questions` (
                                     `id_question` BIGINT AUTO_INCREMENT PRIMARY KEY,
-                                    `title` VARCHAR(60),
-                                    `option_a` VARCHAR(30),
-                                    `option_b` VARCHAR(30),
-                                    `option_c` VARCHAR(30),
-                                    `correct_option` VARCHAR(30),
+                                    `title` VARCHAR(60) NOT NULL,
+                                    `option_a` VARCHAR(30) NOT NULL,
+                                    `option_b` VARCHAR(30) NOT NULL,
+                                    `option_c` VARCHAR(30) NOT NULL,
+                                    `correct_option` VARCHAR(30) NOT NULL,
                                     `points` INT,
                                     `fk_id_quiz` BIGINT,
                                     FOREIGN KEY (`fk_id_quiz`) REFERENCES `custom_quizzes`(`id_quiz`) ON DELETE CASCADE
@@ -70,10 +71,10 @@ DROP TABLE IF EXISTS questions;
 CREATE TABLE `questions`
 (
     `id_question`    BIGINT AUTO_INCREMENT PRIMARY KEY,
-    `title`          VARCHAR(60),
-    `option_a`       VARCHAR(30),
-    `option_b`       VARCHAR(30),
-    `option_c`       VARCHAR(30),
-    `correct_option` VARCHAR(30),
+    `title`          VARCHAR(60) NOT NULL,
+    `option_a`       VARCHAR(30) NOT NULL,
+    `option_b`       VARCHAR(30) NOT NULL,
+    `option_c`       VARCHAR(30) NOT NULL,
+    `correct_option` VARCHAR(30) NOT NULL,
     `points`         INT
 );

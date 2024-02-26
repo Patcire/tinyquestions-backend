@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Exceptions\SQLInfraction;
 use Illuminate\Support\Facades\DB;
 use App\Models\Question;
 use Illuminate\Http\Request;
@@ -64,6 +65,7 @@ class QuestionController extends Controller
         ]));
 
         $question->save();
+
         return response()->json($question);
 
     }

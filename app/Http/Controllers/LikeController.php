@@ -3,19 +3,17 @@
 namespace App\Http\Controllers;
 
 
+use App\Exceptions\CustomNotFound;
+use App\Exceptions\SQLInfraction;
 use App\Models\CustomQuiz;
 use App\Models\Like;
 use App\Models\User;
 use Illuminate\Http\Request;
+use mysql_xdevapi\Exception;
+use function PHPUnit\Framework\isEmpty;
 
 class LikeController extends Controller
 {
-
-    public function all()
-    {
-        $likes = Like::all();
-        return response()->json($likes);
-    }
 
     public function likedBy($id_quiz)
     {
@@ -28,6 +26,7 @@ class LikeController extends Controller
                 $usersLiked[] = $user;
             }
         }
+        if (empty($usersLiked)) throw new CustomNotFound('no users liked this');
         return response()->json($usersLiked);
     }
 
@@ -39,7 +38,7 @@ class LikeController extends Controller
             $quiz = CustomQuiz::find($like->fk_id_quiz);
             $quiz && $quizzesLiked[] = $quiz;
         }
-
+        if (empty($quizzesLiked)) throw new CustomNotFound('this user has not liked quizzes');
         return response()->json($quizzesLiked);
     }
     public function giveLike(Request $request)
@@ -51,7 +50,10 @@ class LikeController extends Controller
 
         $like = Like::create($request->all());
 
+        if (!$like) throw new \Mockery\Exception('not created', 500);
+
         return response()->json($like, 201);
+
     }
     public function dislike($fk_id_user, $fk_id_quiz)
     {
@@ -61,9 +63,8 @@ class LikeController extends Controller
         if ($like) {
             $like->delete();
             return response()->json(null, 204);
-        } else {
-            return response()->json(['message' => 'Like not found'], 404);
         }
+        throw new \Mockery\Exception('not disliked');
 
     }
 
