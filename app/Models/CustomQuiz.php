@@ -13,7 +13,7 @@ class CustomQuiz extends Model
     protected $table = 'custom_quizzes';
     protected $primaryKey  = 'id_quiz';
     public $timestamps = false;
-    protected $fillable = ['n_questions', 'clock',
+    protected $fillable = ['quiz_name', 'n_questions', 'clock',
         'time', 'fk_id_user'];
 
     public static function rules(): array
