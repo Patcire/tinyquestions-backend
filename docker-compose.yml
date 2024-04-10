@@ -2,6 +2,21 @@
 version: '3.1'
 
 services:
+
+    laravel:
+        image: php:8.2-apache
+        ports:
+            - "8000:8000"
+        volumes:
+            - .:/var/www/html
+        depends_on:
+            - mariadb
+        command: /bin/bash -c "apt-get update && apt-get install -y git zip unzip && docker-php-ext-install pdo_mysql && php -r \"copy('https://getcomposer.org/installer', 'composer-setup.php');\" && php composer-setup.php --install-dir=/usr/local/bin --filename=composer && php -r \"unlink('composer-setup.php');\" && composer install && php -S 0.0.0.0:8000 -t public"
+        links:
+            - mariadb
+        networks:
+            - laravel-network
+
     mariadb:
         image: mysql
         command: --default-authentication-plugin=caching_sha2_password
@@ -25,21 +40,8 @@ services:
         environment:
             - PMA_ARBITRARY=1
 
-    laravel:
-        image: php:8.2-apache
-        ports:
-            - "8000:8000"
-        volumes:
-            - .:/var/www/html
-        depends_on:
-            - mariadb
-        command: /bin/bash -c "docker-php-ext-install pdo_mysql && php -S 0.0.0.0:8000 -t public"
-        links:
-            - mariadb
-        networks:
-            - laravel-network
+
 
 networks:
     laravel-network:
         driver: bridge
-
