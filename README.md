@@ -14,13 +14,6 @@ Para probar en local solo es necesario:
 
 > docker-compose up
 
-Y una vez terminada la ejecución de ese comando. Detener los contenedores
- y ejecutar el siguiente comando en la terminal:
-
-> composer install
-
-* 3 - Reinicia los contenedores y ya podrás usar la API.
-
 2- Endpoints de la API
 =
 ***
