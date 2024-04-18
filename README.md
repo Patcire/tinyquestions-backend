@@ -64,6 +64,7 @@ Y una vez terminada la ejecución de ese comando. Detener los contenedores
 ---
 
 ![diagram for my database](/00-images-readme/diagrama-actual.png)
+![diagram for my database](/00-images-readme/actual-pasoTablas.png)
 ![diagram for my database](/00-images-readme/actual-norm.JPG)
 
 
