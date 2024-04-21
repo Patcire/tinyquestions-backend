@@ -34,12 +34,15 @@ CREATE TABLE `custom_quizzes` (
 
 
 CREATE TABLE `matches` (
-                         `id_user` BIGINT,
-                         `id_custom_quiz` BIGINT,
-                         `right_answers` INT,
-                         PRIMARY KEY (`id_user`, `id_custom_quiz`),
-                         FOREIGN KEY (`id_user`) REFERENCES `users`(`id_user`),
-                         FOREIGN KEY (`id_custom_quiz`) REFERENCES `custom_quizzes`(`id_quiz`) ON DELETE CASCADE
+                         `pk_match` BIGINT AUTO_INCREMENT PRIMARY KEY,
+                          `match_identifier` BIGINT AUTO_INCREMENT,
+                         `fk_id_user` BIGINT,
+                         `fk_id_quiz` BIGINT,
+                         `number_right_answers` INT,
+                          `date` TIMESTAMP,
+                         FOREIGN KEY (`fk_id_user`) REFERENCES `users`(`id_user`),
+                         FOREIGN KEY (`fk_id_custom_quiz`) REFERENCES `custom_quizzes`(`id_quiz`) ON DELETE CASCADE
+                         UNIQUE KEY `unique_match_user_quiz` (`fk_id_user`, `fk_id_quiz`, `id_match`)
 );
 
 CREATE TABLE `likes` (

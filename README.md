@@ -57,8 +57,8 @@ Para probar en local solo es necesario:
 ---
 
 ![diagram for my database](/00-images-readme/diagrama-actual.png)
-![diagram for my database](/00-images-readme/actual-pasoTablas.png)
-![diagram for my database](/00-images-readme/actual-norm.JPG)
+![diagram for my database](/00-images-readme/actual-tablas-norm.PNG)
+
 
 
 
