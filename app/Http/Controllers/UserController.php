@@ -3,12 +3,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Exceptions\ActionFails;
 use App\Exceptions\AlreadyExist;
 use App\Exceptions\CustomNotFound;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Mockery\Exception;
 
