@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 use App\Exceptions\AlreadyExist;
 use App\Exceptions\CustomNotFound;
 use App\Models\User;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Mockery\Exception;
@@ -41,9 +42,15 @@ class UserController extends Controller
 
     public function getByUsername($username)
     {
-        $user = User::where('username', $username)->firstOrFail();
-        if (!$user) throw new CustomNotFound('user not found');
-        return response()->json($user);
+        try{
+            $user = User::where('username', $username)->firstOrFail();
+            return response()->json($user);
+        }
+        catch (ModelNotFoundException $e){
+            throw new CustomNotFound('User not found');
+        }
+
+
     }
     public function login(Request $request)
     {
