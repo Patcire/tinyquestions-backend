@@ -107,9 +107,15 @@ class UserController extends Controller
 
     public function deleteByUsername($username)
     {
-        $user = User::where('username', $username)->firstOrFail();
-        if (!$user) throw new CustomNotFound('user not found');
-        $user->delete();
-        return response()->json(null, 204);
+        try{
+            $user = User::where('username', $username)->firstOrFail();
+
+            $user->delete();
+            return response()->json('delete successfully', 204);
+        }
+        catch (ModelNotFoundException $e){
+            throw new CustomNotFound('Username not found');
+        }
+
     }
 }
