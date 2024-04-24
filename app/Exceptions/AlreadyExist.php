@@ -2,7 +2,7 @@
 
 namespace App\Exceptions;
 
-use PHPUnit\Util\Xml\Exception;
+use Exception;
 
 class AlreadyExist extends Exception
 {

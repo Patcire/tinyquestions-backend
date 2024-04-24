@@ -21,12 +21,17 @@ class User extends Model
         'password',
     ];
 
+    protected $attributes = [
+        'points' => 0,
+        'quizzes_resolved' => 0,
+    ];
+
     public static function rulesForUsers(): array
     {
         return [
             'username' => 'required|string|max:30|unique:users',
-            'email' => 'required|string|max:100|unique:users',
-            'password' => 'required|string|max:100',
+            'email' => 'required|string|max:100|email|unique:users',
+            'password' => 'required|string|max:30',
 
         ];
     }
@@ -38,14 +43,7 @@ class User extends Model
             'password' => 'sometimes|string|max:100',
         ];
         }
-    protected static function boot()
-    {
-        parent::boot();
-        static::creating(function ($user) {
-            $user->points = 0;
-            $user->quizzes_resolved=0;
-        });
-    }
+
 
 
 }
