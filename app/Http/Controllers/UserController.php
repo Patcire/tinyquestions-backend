@@ -21,6 +21,13 @@ class UserController extends Controller
         return response()->json($users);
     }
 
+    public function allUsersPaginated(Request $request)
+    {
+        $page = $request->input('page', 1);
+        $users = User::paginate(2, ['*'], 'page', $page);
+        return response()->json($users);
+    }
+
     public function createUser(Request $request)
     {
 
