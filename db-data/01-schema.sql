@@ -13,7 +13,7 @@ DROP TABLE IF EXISTS random_quiz_has_random_question;
 CREATE TABLE `users` (
             `id_user` BIGINT AUTO_INCREMENT PRIMARY KEY,
             `username` VARCHAR(30) UNIQUE NOT NULL,
-            `email` VARCHAR(100) NOT NULL,
+            `email` VARCHAR(100) UNIQUE NOT NULL,
             `password` VARCHAR(200) NOT NULL,
             `points` INT DEFAULT 0,
             `quizzes_resolved` INT DEFAULT 0
