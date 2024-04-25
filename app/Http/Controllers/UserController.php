@@ -29,12 +29,6 @@ class UserController extends Controller
             return response()->json($validator->errors(), 400);
         }
 
-        if (User::where('username', $request->username)->exists()) {
-            throw new AlreadyExist('Error: user already exist');
-        }
-        elseif (User::where('email', $request->email)->exists()) {
-            throw new AlreadyExist('Error: email already exist');
-        }
         $data = $request->only([
             'username',
             'email',
@@ -42,7 +36,7 @@ class UserController extends Controller
         ]);
 
 
-        $request['password'] = bcrypt($data['password']);
+        $data['password'] = bcrypt($data['password']);
 
         $user = User::create($data);
         if (!$user) throw new Exception('error: couldnt create the user', 500);
@@ -67,6 +61,7 @@ class UserController extends Controller
     {
         $username = $request->input('username');
         $password = $request->input('password');
+        // Imprimir los valores para depuración
 
         $user = User::where('username', $username)->first();
 
@@ -88,10 +83,13 @@ class UserController extends Controller
 
     public function updateUser(Request $request, $username)
     {
-
+        // $userId = auth()->id();
         $userSelected = User::where('username', $username)->firstOrFail();
-        if (!$userSelected) throw new CustomNotFound('user not found');
-       $request->validate(User::rulesForUpdateUsers());
+        $validator = Validator::make($request->only(['username', 'email', 'password']), User::rulesForUpdateUsers());
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 400);
+        }
+
         $userSelected-> fill($request->only([
             'username',
             'email',

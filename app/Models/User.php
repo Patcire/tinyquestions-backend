@@ -43,7 +43,7 @@ class User extends Model
             'email' => 'sometimes|required|string|max:100|unique:users,email',
             'password' => 'sometimes|string|max:30',
         ];
-        }
+    }
 
 
 
