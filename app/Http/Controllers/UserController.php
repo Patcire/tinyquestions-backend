@@ -9,6 +9,7 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 use Mockery\Exception;
 
 class UserController extends Controller
@@ -22,8 +23,17 @@ class UserController extends Controller
 
     public function createUser(Request $request)
     {
+
+        $validator = Validator::make($request->only(['username', 'email', 'password']), User::rulesForUsers());
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 400);
+        }
+
         if (User::where('username', $request->username)->exists()) {
             throw new AlreadyExist('Error: user already exist');
+        }
+        elseif (User::where('email', $request->email)->exists()) {
+            throw new AlreadyExist('Error: email already exist');
         }
         $data = $request->only([
             'username',
@@ -31,7 +41,8 @@ class UserController extends Controller
             'password',
         ]);
 
-        $data['password'] = bcrypt($data['password']);
+
+        $request['password'] = bcrypt($data['password']);
 
         $user = User::create($data);
         if (!$user) throw new Exception('error: couldnt create the user', 500);
