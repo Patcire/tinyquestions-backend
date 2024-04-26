@@ -81,12 +81,15 @@ CREATE TABLE `likes` (
 );
 
 CREATE TABLE `users_plays_matches` (
-
+       `id_user_plays_match` BIGINT PRIMARY KEY  AUTO_INCREMENT, #  user can be delete, but no they matches
        `id_user` BIGINT,
        `id_match` BIGINT,
-       PRIMARY KEY (id_match, id_user),
+        `date` TIMESTAMP,
+        `points` INT,
+       `responses` JSON,
+       CONSTRAINT unique _user_match (id_match, id_user),
        FOREIGN KEY (id_match) REFERENCES matches(id_match),
-       FOREIGN KEY (id_user) REFERENCES users(id_user)
+       FOREIGN KEY (id_user) REFERENCES users(id_user) ON DELETE SET NULL
 
 );
 
