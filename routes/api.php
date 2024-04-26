@@ -3,6 +3,7 @@
 use App\Http\Controllers\CustomQuestionController;
 use App\Http\Controllers\CustomQuizController;
 use App\Http\Controllers\LikeController;
+use App\Http\Controllers\MatchController;
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -21,7 +22,7 @@ use Illuminate\Support\Facades\Route;
 
 // IMPORTANT: all routes must use prefix "/api" too ej--> /api/ques/all
 
-// question CRUD (PREGUNTAS PROPIAS DE LA APP)
+// question CRUD
 Route::prefix('ques')->group(function () {
 
     Route::get('/all',  [QuestionController::class, 'allQuestions']);
@@ -44,6 +45,15 @@ Route::prefix('user')->group(function () {
     Route::patch('/upd/{username}',  [UserController::class, 'updateUser']);
     Route::patch('/stats/{username}',  [UserController::class, 'updateStats']);
     Route::post('/login',  [UserController::class, 'login']);
+});
+
+// matches CRUD
+Route::prefix('match')->group(function () {
+
+    Route::get('/all',  [MatchController::class, 'allMatches']);
+    Route::get('/bytype/{type}',  [MatchController::class, 'allByType']);
+    Route::post('/create',  [MatchController::class, 'createMatch']);
+
 });
 
 
