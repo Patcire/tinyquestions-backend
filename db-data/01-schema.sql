@@ -50,7 +50,7 @@ CREATE TABLE `matches` (
        `id_match` BIGINT AUTO_INCREMENT PRIMARY KEY ,
        `type` VARCHAR(20),
        `fk_id_quiz` BIGINT,
-       FOREIGN KEY (`fk_id_quiz`) REFERENCES `quizzes`(`id_quiz`),
+       FOREIGN KEY (`fk_id_quiz`) REFERENCES `quizzes`(`id_quiz`) ON DELETE SET NULL,
        CONSTRAINT type_check CHECK (type IN ('single', 'multi'))
 
 );
