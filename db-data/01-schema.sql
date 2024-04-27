@@ -81,7 +81,9 @@ CREATE TABLE `likes` (
 );
 
 CREATE TABLE `users_plays_matches` (
-       `id_user_plays_match` BIGINT PRIMARY KEY  AUTO_INCREMENT, #  user can be delete, but no they matches
+        #  user can be delete, but no they matches,
+        #  so i create anew id for the match
+       `id_user_plays_match` BIGINT PRIMARY KEY  AUTO_INCREMENT,
        `id_user` BIGINT,
        `id_match` BIGINT,
         `date` TIMESTAMP,

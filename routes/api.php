@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\UserPlayMatchController;
 use App\Http\Controllers\CustomQuestionController;
 use App\Http\Controllers\CustomQuizController;
 use App\Http\Controllers\LikeController;
@@ -56,6 +57,17 @@ Route::prefix('match')->group(function () {
     Route::post('/create',  [MatchController::class, 'createMatch']);
 
 });
+
+// user_play_match CRUD
+Route::prefix('usplmt')->group(function () {
+
+    Route::get('/all',  [UserPlayMatchController::class, 'allUserPlayMatches']);
+    Route::get('/allby/{id}',  [UserPlayMatchController::class, 'allMatchesByUser']);
+    Route::post('/create',  [UserPlayMatchController::class, 'createUserPlayMatch']);
+
+});
+
+
 
 
 // custom_quizzes CRUD
