@@ -18,11 +18,19 @@ class Matchs extends Model // match is a keyworn on php, so I've used matchs isn
     public static function rulesForMatch(): array
     {
         return [
-            'type' => 'required|string|', Rule::in(['single', 'multi']),
+            'type' => 'required|string|'. Rule::in(['single', 'multi']),
             'fk_id_quiz' => ['required', 'integer', 'digits_between:1,20']
         ];
 
     }
+    public static function rulesForType(): array
+    {
+        return [
+            'type' => 'required|string|', Rule::in(['single', 'multi']),
+        ];
+
+    }
+
 
 
 }

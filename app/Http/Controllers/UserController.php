@@ -18,6 +18,7 @@ class UserController extends Controller
     public function allUsers()
     {
         $users = User::all();
+        if (!$users) throw new CustomNotFound('error: not users found');
         return response()->json($users);
     }
 
@@ -33,7 +34,7 @@ class UserController extends Controller
 
         $validator = Validator::make($request->only(['username', 'email', 'password']), User::rulesForUsers());
         if ($validator->fails()) {
-            return response()->json($validator->errors(), 400);
+            return response()->json($validator->errors(), 422);
         }
 
         $data = $request->only([
