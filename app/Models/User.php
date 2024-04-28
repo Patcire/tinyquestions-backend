@@ -8,13 +8,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class User extends Model
 {
-
-    // relationship with table Matches
-    public function matches():BelongsToMany
-    {
-        return $this->belongsToMany(Matchs::class, 'users_plays_matches', 'id_user', 'id_match')->as('match');
-    }
-
     // model config
     protected $table = 'users';
     protected $primaryKey = 'id_user';
@@ -33,6 +26,14 @@ class User extends Model
         'quizzes_resolved' => 0,
     ];
 
+
+    // relationship with table Matches
+    public function matches():BelongsToMany
+    {
+        return $this->belongsToMany(Matchs::class, 'users_plays_matches', 'id_user', 'id_match')
+            ->with(['multiplayerMatch', 'singleplayerMatch'])
+            ->as('match');
+    }
 
     // rules for validation
     public static function rulesForUsers(): array

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\SingleplayerMatchController;
 use App\Http\Controllers\UserPlayMatchController;
 use App\Http\Controllers\CustomQuestionController;
 use App\Http\Controllers\CustomQuizController;
@@ -51,6 +52,14 @@ Route::prefix('match')->group(function () {
     Route::post('/create',  [MatchController::class, 'createMatch']);
 
 });
+
+// singleMatches CRUD
+Route::prefix('single')->group(function () {
+
+    Route::post('/create',  [SingleplayerMatchController::class, 'createSingle']);
+
+});
+
 
 // user_play_match CRUD
 Route::prefix('usplmt')->group(function () {

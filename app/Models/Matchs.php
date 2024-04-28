@@ -8,17 +8,28 @@ use Illuminate\Validation\Rule;
 
 class Matchs extends Model // match is a keyworn on php, so I've used matchs isntead of match
 {
+    // model config
+    protected $table = 'matches';
+    protected $primaryKey = 'id_match';
+    protected $fillable = ['type', 'fk_id_quiz'];
+    public $timestamps = false;
+
     // relationship with table user
     public function users(): BelongsToMany
     {
         return $this->belongsToMany(User::class);
     }
 
-    // model config
-    protected $table = 'matches';
-    protected $primaryKey = 'id_match';
-    protected $fillable = ['type', 'fk_id_quiz'];
-    public $timestamps = false;
+    // hierarchy relationship
+    public function multiplayerMatch()
+    {
+        return $this->hasOne(MultiplayerMatch::class, 'id_match');
+    }
+
+    public function singleplayerMatch()
+    {
+        return $this->hasOne(SingleplayerMatch::class, 'id_match');
+    }
 
     // rules for validation
     public static function rulesForMatch(): array
@@ -29,14 +40,5 @@ class Matchs extends Model // match is a keyworn on php, so I've used matchs isn
         ];
 
     }
-    public static function rulesForType(): array
-    {
-        return [
-            'type' => 'required|string|', Rule::in(['single', 'multi']),
-        ];
-
-    }
-
-
 
 }
