@@ -4,9 +4,18 @@ namespace App\Models;
 
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class User extends Model
 {
+
+    // relationship with table Matches
+    public function matches():BelongsToMany
+    {
+        return $this->belongsToMany(Matchs::class, 'users_plays_matches', 'id_user', 'id_match')->as('match');
+    }
+
+    // model config
     protected $table = 'users';
     protected $primaryKey = 'id_user';
     public $timestamps = false;
@@ -15,8 +24,6 @@ class User extends Model
         'email',
         'password',
     ];
-
-
     protected $hidden = [
         'password',
     ];
@@ -26,6 +33,8 @@ class User extends Model
         'quizzes_resolved' => 0,
     ];
 
+
+    // rules for validation
     public static function rulesForUsers(): array
     {
         return [

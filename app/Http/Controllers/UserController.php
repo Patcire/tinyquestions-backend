@@ -14,7 +14,7 @@ use Mockery\Exception;
 
 class UserController extends Controller
 {
-
+    // basic CRUD
     public function allUsers()
     {
         $users = User::all();
@@ -52,7 +52,6 @@ class UserController extends Controller
         return response()->json($user, 201);
     }
 
-
     public function getByUsername($username)
     {
         try{
@@ -62,9 +61,8 @@ class UserController extends Controller
         catch (ModelNotFoundException $e){
             throw new CustomNotFound('User not found');
         }
-
-
     }
+
     public function login(Request $request)
     {
         $username = $request->input('username');
@@ -134,5 +132,20 @@ class UserController extends Controller
             throw new CustomNotFound('Username not found');
         }
 
+    }
+
+    // Methods related with matches
+
+    public function getUserMatches($userId, $type = null)
+    {
+        $user = User::find($userId);
+        if (!$user) throw new CustomNotFound('user not found', 404);
+
+        // with option to filter by type
+        if ($type === null) $matches = $user->matches;
+        else $matches = $user->matches->where('type', $type);
+        if ($matches->isEmpty()) throw new CustomNotFound('error: this user has no matches', 404);
+
+        return response()->json($matches);
     }
 }

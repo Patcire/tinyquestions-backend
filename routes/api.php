@@ -23,21 +23,11 @@ use Illuminate\Support\Facades\Route;
 
 // IMPORTANT: all routes must use prefix "/api" too ej--> /api/ques/all
 
-// question CRUD
-Route::prefix('ques')->group(function () {
-
-    Route::get('/all',  [QuestionController::class, 'allQuestions']);
-    Route::get('/rand/{number}',  [QuestionController::class, 'getRandomQuestions']);
-    Route::get('/{id}',  [QuestionController::class, 'getById']);
-    Route::post('/create',  [QuestionController::class, 'createQuestion']);
-    Route::patch('/upd/{id}',  [QuestionController::class, 'updateQuestion']);
-    Route::delete('/del/{id}',  [QuestionController::class, 'deleteQuestion']);
-
-});
 
 // users CRUD
 Route::prefix('user')->group(function () {
 
+    // user crud
     Route::get('/all',  [UserController::class, 'allUsers']);
     Route::get('/allpag',  [UserController::class, 'allUsersPaginated']);
     Route::get('/{username}',  [UserController::class, 'getByUsername']);
@@ -46,6 +36,10 @@ Route::prefix('user')->group(function () {
     Route::patch('/upd/{username}',  [UserController::class, 'updateUser']);
     Route::patch('/stats/{username}',  [UserController::class, 'updateStats']);
     Route::post('/login',  [UserController::class, 'login']);
+
+    // user - match get methods (many-to-many), rest of crud on UserPlayMatchController
+    Route::get('/allmat/{id}/{type?}',  [UserController::class, 'getUserMatches']);
+
 });
 
 // matches CRUD
@@ -62,13 +56,9 @@ Route::prefix('match')->group(function () {
 Route::prefix('usplmt')->group(function () {
 
     Route::get('/all',  [UserPlayMatchController::class, 'allUserPlayMatches']);
-    Route::get('/allby/{id}',  [UserPlayMatchController::class, 'allMatchesByUser']);
     Route::post('/create',  [UserPlayMatchController::class, 'createUserPlayMatch']);
 
 });
-
-
-
 
 // custom_quizzes CRUD
 Route::prefix('cust')->group(function () {
@@ -81,6 +71,17 @@ Route::prefix('cust')->group(function () {
     Route::patch('/upd/{id}',  [CustomQuizController::class, 'updateCustom']);
 });
 
+// question CRUD
+Route::prefix('ques')->group(function () {
+
+    Route::get('/all',  [QuestionController::class, 'allQuestions']);
+    Route::get('/rand/{number}',  [QuestionController::class, 'getRandomQuestions']);
+    Route::get('/{id}',  [QuestionController::class, 'getById']);
+    Route::post('/create',  [QuestionController::class, 'createQuestion']);
+    Route::patch('/upd/{id}',  [QuestionController::class, 'updateQuestion']);
+    Route::delete('/del/{id}',  [QuestionController::class, 'deleteQuestion']);
+
+});
 
 // likes CRUD
 Route::prefix('li')->group(function () {
