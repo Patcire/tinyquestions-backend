@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\MultiplayerMatchController;
 use App\Http\Controllers\SingleplayerMatchController;
 use App\Http\Controllers\UserPlayMatchController;
 use App\Http\Controllers\CustomQuestionController;
@@ -57,6 +58,14 @@ Route::prefix('match')->group(function () {
 Route::prefix('single')->group(function () {
 
     Route::post('/create',  [SingleplayerMatchController::class, 'createSingle']);
+
+});
+
+
+// multiMatches CRUD
+Route::prefix('multi')->group(function () {
+
+    Route::post('/create',  [MultiplayerMatchController::class, 'createMulti']);
 
 });
 
