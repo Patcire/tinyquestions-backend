@@ -30,18 +30,23 @@ CREATE TABLE `followers` (
 
 CREATE TABLE `quizzes` (
           `id_quiz` BIGINT AUTO_INCREMENT PRIMARY KEY,
-          `quiz_name` VARCHAR(40) NOT NULL,
           `number_questions` INT NOT NULL,
           `clock` BOOLEAN NOT NULL,
-          `time` INT CHECK (time >= 5)
+          `time` INT CHECK (time >= 5),
+          `type` VARCHAR(20),
+          CONSTRAINT quiz_type_check CHECK (type IN ('custom', 'random'))
+
 );
 
 CREATE TABLE `custom_quizzes` (
            `id_quiz` BIGINT PRIMARY KEY,
+           `quiz_name` VARCHAR(40) NOT NULL,
            `fk_id_user` BIGINT,
            FOREIGN KEY (id_quiz) REFERENCES quizzes(id_quiz),
            FOREIGN KEY (`fk_id_user`) REFERENCES `users`(`id_user`) ON DELETE CASCADE
 );
+
+
 
 CREATE TABLE `matches` (
 

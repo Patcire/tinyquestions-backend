@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\MultiplayerMatchController;
+use App\Http\Controllers\QuizController;
 use App\Http\Controllers\SingleplayerMatchController;
 use App\Http\Controllers\UserPlayMatchController;
 use App\Http\Controllers\CustomQuestionController;
@@ -75,6 +76,15 @@ Route::prefix('usplmt')->group(function () {
 
     Route::get('/all',  [UserPlayMatchController::class, 'allUserPlayMatches']);
     Route::post('/create',  [UserPlayMatchController::class, 'createUserPlayMatch']);
+
+});
+
+// quiz CRUD
+Route::prefix('quiz')->group(function () {
+
+    Route::get('/all',  [QuizController::class, 'getAllQuizzes']);
+    Route::get('/{id}',  [QuizController::class, 'getQuizById']);
+    Route::post('/create',  [QuizController::class, 'createQuiz']);
 
 });
 
