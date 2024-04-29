@@ -1,66 +1,3 @@
-INSERT INTO users (username, email, password, points, quizzes_resolved)
-VALUES  ('pepepepe', 'pepe@gmail.com', 'pepepepe', 100, 3),
-        ('usuario2', 'usuario2@example.com', 'password2', 50, 1),
-        ('usuario3', 'usuario3@example.com', 'password3', 75, 2),
-        ('usuario4', 'usuario4@example.com', 'password4', 200, 5),
-        ('usuario5', 'usuario5@example.com', 'password5', 150, 4);
-
-INSERT INTO followers (id_user_follow, id_user_followed)
-VALUES
-    (1, 2),
-    (1, 3),
-    (2, 3),
-    (4, 1),
-    (5, 2);
-
-INSERT INTO quizzes (quiz_name, number_questions, clock, time, fk_id_user)
-VALUES
-    ('Quiz1', 10, TRUE, 10, 1),
-    ('Quiz2', 15, FALSE, NULL, 2),
-    ('Quiz3', 20, TRUE, 15, 4);
-
-INSERT INTO matches (type, fk_id_quiz)
-VALUES
-    ('single', 1),
-    ('multi', 2),
-    ('single', 3),
-    ('multi', 1),
-    ('single', 2);
-
-INSERT INTO custom_quizzes (id_quiz, fk_id_user)
-VALUES
-    (1, 1),
-    (2, 2),
-    (3, 4);
-
-
-INSERT INTO multiplayer_matches (id_match, winner, number_players)
-VALUES
-    (4, 'usuario4', 4),
-    (5, 'usuario2', 6);
-
-
-INSERT INTO singleplayer_matches (id_match, mode)
-VALUES
-    (1, 'quick'),
-    (3, 'mirror'),
-    (5, 'explod');
-
-INSERT INTO likes (fk_id_user, fk_id_quiz)
-VALUES
-    (1, 1),
-    (2, 2),
-    (3, 3);
-
-
-INSERT INTO users_plays_matches (id_user, id_match)
-VALUES
-    (1, 1),
-    (2, 1),
-    (3, 2),
-    (4, 3),
-    (5, 4);
-
 INSERT INTO questions (title, option_a, option_b, option_c, correct_option, points, type)
 VALUES
 ('Director of "Lost in Translation"?', 'Sofia Coppola', 'Quentin Tarantino', 'Christopher Nolan', 'Sofia Coppola', 10, 'random'),
@@ -119,17 +56,6 @@ VALUES
 ('Singer known for "From the Choirgirl Hotel"', 'Tori Amos', 'PJ Harvey', 'Alanis Morissette', 'Tori Amos', 10, 'custom'),
 ('Director of "American Psycho"', 'Kathryn Bigelow', 'Sofia Coppola', 'Mary Harron', 'Mary Harron', 10, 'custom'),
 ('Singer-songwriter known for "Army of Me"', 'Bjork', 'Kate Bush', 'Sia', 'Bjork', 10, 'custom');
-
--- insert custom questions of custom quizzes
-INSERT INTO custom_questions (id_question, fk_id_quiz)
-VALUES
-(56, 3),
-(23, 3),
-(24, 3),
-(25, 3),
-(26, 3),
-(27, 3),
-(28, 3);
 
 
 

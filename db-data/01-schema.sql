@@ -33,9 +33,7 @@ CREATE TABLE `quizzes` (
           `quiz_name` VARCHAR(40) NOT NULL,
           `number_questions` INT NOT NULL,
           `clock` BOOLEAN NOT NULL,
-          `time` INT CHECK (time >= 5),
-          `fk_id_user` BIGINT,
-          FOREIGN KEY (`fk_id_user`) REFERENCES `users`(`id_user`) ON DELETE CASCADE
+          `time` INT CHECK (time >= 5)
 );
 
 CREATE TABLE `custom_quizzes` (
