@@ -33,14 +33,6 @@ services:
         networks:
             - laravel-network
 
-    phpmyadmin:
-        image: phpmyadmin
-        ports:
-            - "8080:80"
-        environment:
-            - PMA_ARBITRARY=1
-
-
 
 networks:
     laravel-network:
