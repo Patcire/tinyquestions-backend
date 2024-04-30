@@ -55,21 +55,6 @@ Route::prefix('match')->group(function () {
 
 });
 
-// singleMatches CRUD
-Route::prefix('single')->group(function () {
-
-    Route::post('/create',  [SingleplayerMatchController::class, 'createSingle']);
-
-});
-
-
-// multiMatches CRUD
-Route::prefix('multi')->group(function () {
-
-    Route::post('/create',  [MultiplayerMatchController::class, 'createMulti']);
-
-});
-
 
 // user_play_match CRUD
 Route::prefix('usplmt')->group(function () {
