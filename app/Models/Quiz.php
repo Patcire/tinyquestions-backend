@@ -22,9 +22,19 @@ class Quiz extends Model
 
 
     // relationship with table Matches
-    public function comments(): HasMany
+    public function match(): HasMany
     {
         return $this->hasMany(Matchs::class, 'fk_id_quiz', 'id_quiz');
+    }
+
+    // hierarchy relationship
+    public function customQuiz()
+    {
+        return $this->hasOne(CustomQuiz::class, 'id_quiz', 'id_quiz');
+    }
+    public function randomQuiz()
+    {
+        return $this->hasOne(CustomQuiz::class, 'id_quiz', 'id_quiz');
     }
 
     // rules for validation

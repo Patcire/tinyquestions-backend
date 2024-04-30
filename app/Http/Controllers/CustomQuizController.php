@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Exceptions\CustomNotFound;
 use App\Models\CustomQuiz;
+use Exception;
 use Illuminate\Http\Request;
 
 class CustomQuizController extends Controller
@@ -26,7 +27,7 @@ class CustomQuizController extends Controller
     public function createCustom(Request $request)
     {
         $customQuiz = CustomQuiz::create($request->all());
-        if (!$customQuiz) throw new \Mockery\Exception('not created', 500);
+        if (!$customQuiz) throw new Exception('not created', 500);
         $request->validate(CustomQuiz::rules());
         return response()->json($customQuiz, 201);
     }

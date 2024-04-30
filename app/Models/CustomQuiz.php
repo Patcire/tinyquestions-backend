@@ -8,33 +8,30 @@ use Illuminate\Validation\Rule;
 
 class CustomQuiz extends Model
 {
-    // use HasFactory;
+    // model config
 
     protected $table = 'custom_quizzes';
     protected $primaryKey  = 'id_quiz';
     public $timestamps = false;
-    protected $fillable = ['quiz_name', 'n_questions', 'clock',
-        'time', 'fk_id_user'];
+    protected $fillable = ['quiz_name', 'id_quiz', 'fk_id_user'];
 
+    // hierarchy relationship
+    public function quiz()
+    {
+        return $this->belongsTo(Matchs::class, 'id_quiz');
+    }
+
+
+
+
+    // rules for validation
     public static function rules(): array
     {
         return [
-            'n_questions' => 'required|integer',
-            'clock' => 'required|boolean',
-            'time' => 'integer|min:5'
+            'quiz_name' => 'required|string|max:40',
+            'fk_id_user' => ['required', 'integer', 'digits_between:1,20'],
+            'id_quiz' => ['required', 'integer', 'digits_between:1,20']
         ];
-    }
-    public static function rulesForUpdate(): array
-    {
-        return [
-            'clock' => 'required|boolean',
-            'time' => 'integer|min:5'
-        ];
-    }
-
-    public function createdBy()
-    {
-        return $this->belongsTo(User::class, 'id_user', 'id_user');
     }
 
 
