@@ -13,7 +13,7 @@ class UserPlayMatch extends Model{
         'id_user',
         'id_match' ,
         'points' ,
-        'responses',
+        'answers',
     ];
 
     public static function rules(): array
@@ -22,7 +22,7 @@ class UserPlayMatch extends Model{
             'id_user' => 'required', 'integer', 'digits_between:1,20',
             'id_match' => 'required', 'integer', 'digits_between:1,20',
             'points' => 'required|integer',
-            'responses' => 'required|json',
+            'answers' => 'required|json',
         ];
     }
     public static function idRules(): array

@@ -30,9 +30,7 @@ class User extends Model
     // relationship with table Matches
     public function matches():BelongsToMany
     {
-        return $this->belongsToMany(Matchs::class, 'users_plays_matches', 'id_user', 'id_match')
-            ->with(['multiplayerMatch', 'singleplayerMatch'])
-            ->as('match');
+        return $this->belongsToMany(Matchs::class, 'users_plays_matches', 'id_user', 'id_match');
     }
 
     // rules for validation

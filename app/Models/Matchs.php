@@ -11,7 +11,7 @@ class Matchs extends Model // match is a keyworn on php, so I've used matchs isn
     // model config
     protected $table = 'matches';
     protected $primaryKey = 'id_match';
-    protected $fillable = ['isMultiplayers', 'winner', 'number_players', 'fk_id_quiz'];
+    protected $fillable = ['isMultiplayer', 'winner', 'number_players', 'fk_id_quiz'];
     public $timestamps = false;
 
     // relationship with table user
