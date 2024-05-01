@@ -84,7 +84,7 @@ CREATE TABLE `users_plays_matches` (
         `date` TIMESTAMP,
         `points` INT,
        `answers` JSON,
-       CONSTRAINT unique _user_match (id_match, id_user),
+       CONSTRAINT unique ck_user_match (id_match, id_user),
        FOREIGN KEY (id_match) REFERENCES matches(id_match),
        FOREIGN KEY (id_user) REFERENCES users(id_user) ON DELETE SET NULL
 
@@ -109,7 +109,7 @@ CREATE TABLE `questions`
 
 
 CREATE TABLE `random_quiz_has_random_question` (
-        `id_quiz` BIGINT PRIMARY KEY,
+        `id_quiz` BIGINT ,
         `id_question` BIGINT,
         FOREIGN KEY (`id_quiz`) REFERENCES `quizzes`(`id_quiz`) ON DELETE CASCADE,
         FOREIGN KEY (`id_question`) REFERENCES `questions` (`id_question`) ON DELETE CASCADE

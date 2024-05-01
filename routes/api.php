@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\MultiplayerMatchController;
 use App\Http\Controllers\QuizController;
+use App\Http\Controllers\RandomQuizHasRandomQuestionController;
 use App\Http\Controllers\SingleplayerMatchController;
 use App\Http\Controllers\UserPlayMatchController;
 use App\Http\Controllers\CustomQuestionController;
@@ -57,7 +58,7 @@ Route::prefix('match')->group(function () {
 
 
 // user_play_match CRUD
-Route::prefix('usplmt')->group(function () {
+Route::prefix('play')->group(function () {
 
     Route::get('/all',  [UserPlayMatchController::class, 'allUserPlayMatches']);
     Route::post('/create',  [UserPlayMatchController::class, 'createUserPlayMatch']);
@@ -105,6 +106,17 @@ Route::prefix('li')->group(function () {
     Route::delete('/dis/{fk_id_user}/{fk_id_quiz}', [LikeController::class, 'dislike']);
 
 });
+
+// random_quiz_has_random_question CRUD
+Route::prefix('has')->group(function () {
+
+    Route::get('/all',  [RandomQuizHasRandomQuestionController::class, 'allQuizHasQuestions']);
+    Route::get('/{id_quiz}',  [RandomQuizHasRandomQuestionController::class, 'QuizHasQuestions']);
+    Route::post('/create',  [RandomQuizHasRandomQuestionController::class, 'createHas']);
+
+});
+
+
 
 
 /*

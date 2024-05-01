@@ -1,16 +1,10 @@
 <?php
-
 namespace App\Http\Controllers;
 use App\Exceptions\CustomException;
 use App\Exceptions\CustomNotFound;
-use App\Exceptions\SQLInfraction;
-use Doctrine\DBAL\Types\BooleanType;
-use Illuminate\Support\Facades\DB;
 use App\Models\Question;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use phpDocumentor\Reflection\Types\Boolean;
-
 
 class QuestionController extends Controller
 {
