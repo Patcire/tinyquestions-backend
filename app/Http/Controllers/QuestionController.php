@@ -1,26 +1,32 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Exceptions\CustomException;
+use App\Exceptions\CustomNotFound;
 use App\Exceptions\SQLInfraction;
+use Doctrine\DBAL\Types\BooleanType;
 use Illuminate\Support\Facades\DB;
 use App\Models\Question;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use phpDocumentor\Reflection\Types\Boolean;
 
 
 class QuestionController extends Controller
 {
 
-    public function allQuestions(): \Illuminate\Http\JsonResponse
+    public function allQuestionsByType(bool $boolean): \Illuminate\Http\JsonResponse
     {
-        $results = Question::all();
+        $results = Question::where('isCustom', $boolean)->get();
+        if (!$results) throw new CustomNotFound('No question found');
         return response()->json($results);
     }
 
     public function getRandomQuestions($numberQuestionsNeeded): \Illuminate\Http\JsonResponse
     {
-        $totalQuestions = $this->allQuestions();
+        //only questions from the app, no questions created by users
+        $totalQuestions = $this->allQuestionsByType(0);
         $arrayOfAllQuestions = json_decode($totalQuestions->getContent(), true);;
-
 
         shuffle($arrayOfAllQuestions);
 
@@ -38,10 +44,14 @@ class QuestionController extends Controller
 
     public function createQuestion(Request $request)
     {
+        $validatedQuestion = Validator::make($request->all(), Question::rules());
+        if ($validatedQuestion->fails()) {
+            return response()->json($validatedQuestion->errors(), 422);
+        }
         $question = Question::create($request->all());
+        if (!$question) throw new CustomException('question wasnt created', 500);
         return response()->json($question, 201);
     }
-
 
     public function getById($id)
     {

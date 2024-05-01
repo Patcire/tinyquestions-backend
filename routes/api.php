@@ -87,7 +87,7 @@ Route::prefix('cust')->group(function () {
 // question CRUD
 Route::prefix('ques')->group(function () {
 
-    Route::get('/all',  [QuestionController::class, 'allQuestions']);
+    Route::get('/all/{type}',  [QuestionController::class, 'allQuestionsByType']);
     Route::get('/rand/{number}',  [QuestionController::class, 'getRandomQuestions']);
     Route::get('/{id}',  [QuestionController::class, 'getById']);
     Route::post('/create',  [QuestionController::class, 'createQuestion']);
@@ -103,16 +103,6 @@ Route::prefix('li')->group(function () {
     Route::get('/likes/{fk_id_user}/', [LikeController::class, 'userLikes']);
     Route::post('/give', [LikeController::class, 'giveLike']);
     Route::delete('/dis/{fk_id_user}/{fk_id_quiz}', [LikeController::class, 'dislike']);
-
-});
-
-// custom_questions CRUD (questions created for users)
-Route::prefix('usque')->group(function () {
-
-    Route::get('/{id_quiz}',  [CustomQuestionController::class, 'getAllCustomQuestionsFromCustomQuiz']);
-    Route::post('/create',  [CustomQuestionController::class, 'createCustomQuestion']);
-    Route::patch('/upd/{id}',  [CustomQuestionController::class, 'updateCustomQuestion']);
-    Route::delete('/del/{id}',  [CustomQuestionController::class, 'deleteCustomQuestion']);
 
 });
 
