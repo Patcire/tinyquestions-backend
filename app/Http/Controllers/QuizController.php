@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Exceptions\CustomException;
 use App\Exceptions\CustomNotFound;
+use App\Models\CustomQuiz;
 use App\Models\Quiz;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -23,10 +24,17 @@ class QuizController extends Controller
 
     public function getQuizById(int $id)
     {
-
+        // include all chained info ( info of subtype, questions )
         $quiz = Quiz::find($id);
-        if (!$quiz) throw new CustomNotFound('the quiz dont exist');
-        return response()->json($quiz);
+        if (!$quiz) throw new CustomNotFound('the quiz was not found');
+
+        $quizInfo = $quiz->toArray();
+
+        ($quiz instanceof CustomQuiz) ?
+            $quizInfo = $quizInfo['quiz_details'] = $quiz->customQuiz->toArray()
+            :
+            $quizInfo['quiz_details'] = $quiz->randomQuiz->toArray();
+        return response()->json($quizInfo);
     }
 
 

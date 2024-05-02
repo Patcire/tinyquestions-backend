@@ -17,9 +17,14 @@ class RandomQuiz extends Model
     // hierarchy relationship
     public function quiz()
     {
-        return $this->belongsTo(Matchs::class, 'id_quiz');
+        return $this->belongsTo(Quiz::class, 'id_quiz');
     }
 
+    //relationship with questions
+    public function questions()
+    {
+        return $this->belongsToMany(Question::class)->using(RandomQuizHasRandomQuestion::class);
+    }
 
     // rules for validation
     public static function rules(): array

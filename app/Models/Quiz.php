@@ -22,7 +22,7 @@ class Quiz extends Model
 
 
     // relationship with table Matches
-    public function match(): HasMany
+    public function custom(): HasMany
     {
         return $this->hasMany(Matchs::class, 'fk_id_quiz', 'id_quiz');
     }

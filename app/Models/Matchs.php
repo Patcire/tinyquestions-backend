@@ -17,7 +17,8 @@ class Matchs extends Model // match is a keyworn on php, so I've used matchs isn
     // relationship with table user
     public function users(): BelongsToMany
     {
-        return $this->belongsToMany(User::class);
+        return $this->belongsToMany(User::class, 'users_plays_matches', 'id_user', 'id_match');
+
     }
 
     // rules for validation

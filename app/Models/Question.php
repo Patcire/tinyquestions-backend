@@ -8,13 +8,15 @@ class Question extends Model
 {
     //model config
 
-    // fk_id_quiz could be null if the question wasn't custom
-    // (created by an user)
     public $timestamps = false;
     protected $table = 'questions';
     protected $primaryKey = 'id_question';
     protected $fillable = ['title', 'option_a', 'option_b', 'option_c',
         'correct_option', 'points', 'isCustom', 'fk_id_quiz'];
+    // fk_id_quiz could be null if the question wasn't custom
+    // (created by an user)
+
+    // relationship with randomquiz
 
 
     // rules for validation

@@ -107,7 +107,6 @@ class UserController extends Controller
 
     public function updateStats(Request $request, $username)
     {
-
         $userSelected = User::where('username', $username)->firstOrFail();
         if (!$userSelected) throw new CustomNotFound('user not found');
 
@@ -136,16 +135,17 @@ class UserController extends Controller
 
     // Methods related with matches
 
-    public function getUserMatches($userId, $type = null)
+    public function getUserMatches($userId, bool $isMultiplayer = null, $numberItems=null)
     {
         $user = User::find($userId);
         if (!$user) throw new CustomNotFound('user not found', 404);
 
         // with option to filter by type
-        if ($type === null) $matches = $user->matches;
-        else $matches = $user->matches->where('type', $type);
-        if ($matches->isEmpty()) throw new CustomNotFound('error: this user has no matches', 404);
+        $matches = $user->matches();
+        if ($isMultiplayer) $matches->where('isMultiplayer', $isMultiplayer);
 
-        return response()->json($matches);
+        $matchesPaginated = $matches->paginate($numberItems ?? 10);
+        if ($matchesPaginated->isEmpty()) throw new CustomNotFound('No quizzes found');
+        return response()->json($matchesPaginated);
     }
 }

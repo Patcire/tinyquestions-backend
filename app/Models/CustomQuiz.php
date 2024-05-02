@@ -21,7 +21,11 @@ class CustomQuiz extends Model
         return $this->belongsTo(Matchs::class, 'id_quiz');
     }
 
-
+    //  relationship with question
+    public function questions()
+    {
+        return $this->hasMany(Question::class, 'fk_id_quiz');
+    }
 
 
     // rules for validation
