@@ -16,7 +16,7 @@ class QuizController extends Controller
     public function getAllQuizzes(Request $request)
     {
         $page = $request->input('page', 1);
-        $quizzes = Quiz::paginate(2, ['*'], 'page', $page);;
+        $quizzes = Quiz::paginate(10, ['*'], 'page', $page);;
         if (!$quizzes) throw new CustomNotFound('no quizzes were found');
         return response()->json($quizzes);
     }
@@ -45,7 +45,7 @@ class QuizController extends Controller
 
         $quiz = Quiz::create($request->all());
         if (!$quiz) throw new CustomException('the quiz coudnt be created', 500);
-        return response()->json($quiz);
+        return response()->json($quiz, 201);
     }
 
 

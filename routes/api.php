@@ -52,6 +52,7 @@ Route::prefix('match')->group(function () {
     Route::get('/all',  [MatchController::class, 'allMatches']);
     Route::get('/allpag',  [MatchController::class, 'allMatchesPaginated']);
     Route::get('/bytype/{type}',  [MatchController::class, 'allByType']);
+    Route::get('/relinfo/{id}',  [MatchController::class, 'getMatchRelatedInfo']);
     Route::post('/create',  [MatchController::class, 'createMatch']);
 
 });

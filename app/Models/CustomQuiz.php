@@ -18,13 +18,13 @@ class CustomQuiz extends Model
     // hierarchy relationship
     public function quiz()
     {
-        return $this->belongsTo(Matchs::class, 'id_quiz');
+        return $this->belongsTo(Matchs::class, 'id_quiz', 'id_quiz');
     }
 
     //  relationship with question
     public function questions()
     {
-        return $this->hasMany(Question::class, 'fk_id_quiz');
+        return $this->hasMany(Question::class, 'fk_id_quiz', 'id_quiz');
     }
 
 

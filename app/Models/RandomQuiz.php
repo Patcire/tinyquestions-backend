@@ -17,7 +17,7 @@ class RandomQuiz extends Model
     // hierarchy relationship
     public function quiz()
     {
-        return $this->belongsTo(Quiz::class, 'id_quiz');
+        return $this->belongsTo(Quiz::class, 'id_quiz', 'id_quiz');
     }
 
     //relationship with questions

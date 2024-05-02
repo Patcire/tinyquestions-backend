@@ -25,6 +25,7 @@ class MatchController extends Controller
         return response()->json($matches);
     }
 
+
     public function allByType(String $type){
         $validateType = Validator::make([$type], Matchs::rulesForType());
         if ($validateType->fails()) return response()->json('error: type only can be single or multi', 422);
@@ -41,6 +42,31 @@ class MatchController extends Controller
         return response()->json($match, 201);
     }
 
-    // no more methods, matches can't be deleted/updated
+    // no more CRUD methods, matches can't be deleted/updated
+
+    // Get all quizzes/questions info related to a match
+    public function getMatchRelatedInfo(int $id_match)
+    {
+        //$matches = Matchs::find($id_quiz)->quiz;
+        //if (!$matches) throw new CustomNotFound('no matches related to this quiz');
+        //return response()->json($matches);
+
+        $match = Matchs::with('quiz.customQuiz', 'quiz.randomQuiz')->find($id_match);
+        if (!$match) throw new CustomNotFound('no match found');
+
+        $quizType = $match->quiz->customQuiz ? 'custom' : ($match->quiz->randomQuiz ? 'random' : null);
+        $quiz = $quizType === 'custom' ? $match->customQuiz :  $match->randomQuiz;
+        if (!$quiz) throw new CustomNotFound('no quiz found');
+
+        $questions = $quiz->questions;
+        if (!$quiz) throw new CustomNotFound('no questions found');
+
+        return json_encode([
+            'match' => $match,
+            'quiz' => $quiz,
+            'questions' => $questions,
+        ]);
+    }
+
 
 }
