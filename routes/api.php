@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\MultiplayerMatchController;
 use App\Http\Controllers\QuizController;
+use App\Http\Controllers\RandomQuizController;
 use App\Http\Controllers\RandomQuizHasRandomQuestionController;
 use App\Http\Controllers\SingleplayerMatchController;
 use App\Http\Controllers\UserPlayMatchController;
@@ -85,6 +86,16 @@ Route::prefix('cust')->group(function () {
     Route::delete('/del/{id}',  [CustomQuizController::class, 'deleteCustom']);
     Route::patch('/upd/{id}',  [CustomQuizController::class, 'updateCustom']);
 });
+
+// random_quizzes CRUD
+Route::prefix('rand')->group(function () {
+
+    Route::get('/{id}',  [RandomQuizController::class, 'getRandom']);
+    Route::post('/create',  [RandomQuizController::class, 'createRandom']);
+
+});
+
+
 
 // question CRUD
 Route::prefix('ques')->group(function () {
