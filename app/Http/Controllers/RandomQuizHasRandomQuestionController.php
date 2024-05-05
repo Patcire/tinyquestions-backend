@@ -23,9 +23,9 @@ class RandomQuizHasRandomQuestionController extends Controller
 
     public function QuizHasQuestions(int $id_quiz)
     {
-        $results = RandomQuizHasRandomQuestion::where('isCustom', $id_quiz)->get();
+        $results = RandomQuizHasRandomQuestion::where('id_quiz', $id_quiz)->get();
         if (!$results) throw new CustomNotFound('No questions found');
-        return response()->json($results);
+        return response()->json($results, 201);
     }
 
 
