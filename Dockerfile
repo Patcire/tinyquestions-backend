@@ -29,7 +29,8 @@ ENV MYSQL_ROOT_PASSWORD user
 EXPOSE 8000
 
 # Ejecutar el servidor web PHP y establecer la red al mismo tiempo
-CMD ["sh", "-c", "php -S 0.0.0.0:8000 -t public --link mariadb:mariadb"]
+CMD ["sh", "-c", "php -S 0.0.0.0:8000 -t public --host mariadb"]
+
 
 
 
