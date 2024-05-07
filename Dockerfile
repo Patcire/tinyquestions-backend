@@ -25,8 +25,12 @@ ENV MYSQL_USER user
 ENV MYSQL_PASSWORD user
 ENV MYSQL_ROOT_PASSWORD user
 
+# Exponer el puerto 8000 para el servidor web
+EXPOSE 8000
+
 # Comando para iniciar el servidor web
 CMD ["php", "-S", "0.0.0.0:8000", "-t", "public"]
+
 
 
 
