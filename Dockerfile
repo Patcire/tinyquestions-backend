@@ -28,8 +28,8 @@ ENV MYSQL_ROOT_PASSWORD user
 # Exponer el puerto 8000 para el servidor web
 EXPOSE 8000
 
-# Comando para iniciar el servidor web
-CMD ["php", "-S", "0.0.0.0:8000", "-t", "public"]
+# Ejecutar el servidor web PHP y establecer la red al mismo tiempo
+CMD ["sh", "-c", "php -S 0.0.0.0:8000 -t public --link mariadb:mariadb"]
 
 
 
