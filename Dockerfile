@@ -1,25 +1,33 @@
-# Use the PHP base image with Apache
 FROM php:8.2-apache
 
-# Install necessary dependencies
-RUN apt-get update && apt-get install -y git zip unzip \
-    && docker-php-ext-install pdo_mysql
+# Instalación de dependencias
+RUN apt-get update && \
+    apt-get install -y git zip unzip && \
+    docker-php-ext-install pdo_mysql
 
-# Set up PHP server configuration
+# Instalación de Composer
+RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" && \
+    php composer-setup.php --install-dir=/usr/local/bin --filename=composer && \
+    php -r "unlink('composer-setup.php');"
+
+# Directorio de trabajo
+WORKDIR /var/www/html
+
+# Copiar archivos de la aplicación
 COPY . /var/www/html
-EXPOSE 8000
 
-# Set up MariaDB
-RUN apt-get install -y mariadb-server
+# Instalar dependencias de Composer
+RUN composer install
 
-# Copy the database initialization script
-COPY db-data/*.sql /docker-entrypoint-initdb.d/
+# Configuración de la base de datos MariaDB
+ENV MYSQL_DATABASE tinyq
+ENV MYSQL_USER user
+ENV MYSQL_PASSWORD user
+ENV MYSQL_ROOT_PASSWORD user
 
-# Expose the MariaDB port
-EXPOSE 3306
+# Comando para iniciar el servidor web
+CMD ["php", "-S", "0.0.0.0:8000", "-t", "public"]
 
-# Start both services
-CMD service mariadb start && php -S 0.0.0.0:8013 -t public
 
 
 
