@@ -13,7 +13,7 @@ EXPOSE 8000
 RUN apt-get install -y mariadb-server
 
 # Copy the database initialization script
-COPY init.sql /docker-entrypoint-initdb.d/init.sql
+COPY db-data/*.sql /docker-entrypoint-initdb.d/
 
 # Expose the MariaDB port
 EXPOSE 3306
