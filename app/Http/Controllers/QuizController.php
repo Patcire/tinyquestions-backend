@@ -28,13 +28,7 @@ class QuizController extends Controller
         $quiz = Quiz::find($id);
         if (!$quiz) throw new CustomNotFound('the quiz was not found');
 
-        $quizInfo = $quiz->toArray();
-
-        ($quiz instanceof CustomQuiz) ?
-            $quizInfo = $quizInfo['quiz_details'] = $quiz->customQuiz->toArray()
-            :
-            $quizInfo['quiz_details'] = $quiz->randomQuiz->toArray();
-        return response()->json($quizInfo);
+        return response()->json($quiz);
     }
 
 

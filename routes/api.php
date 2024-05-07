@@ -62,8 +62,9 @@ Route::prefix('match')->group(function () {
 // user_play_match CRUD
 Route::prefix('play')->group(function () {
 
-    Route::get('/all',  [UserPlayMatchController::class, 'allUserPlayMatches']);
+    Route::get('/{id}',  [UserPlayMatchController::class, 'getUserMatches']);
     Route::post('/create',  [UserPlayMatchController::class, 'createUserPlayMatch']);
+    //Route::get('/create',  [UserPlayMatchController::class, 'createUserPlayMatch']);
 
 });
 

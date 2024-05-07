@@ -35,13 +35,14 @@ class CustomQuizController extends Controller
     public function getCustom($id_custom)
     {
 
-        $customQuiz = CustomQuiz::findOrFail($id_custom);
+        $customQuiz = CustomQuiz::find($id_custom);
         if (!$customQuiz) throw new CustomNotFound('no quiz found');
 
         // the recovery will include the questions info too
         $quizPlusQuestions = $customQuiz->toArray();
         $quizPlusQuestions['questions'] = $customQuiz->questions->toArray();
         return response()->json($quizPlusQuestions);
+       // return response()->json($customQuiz);
     }
 
 

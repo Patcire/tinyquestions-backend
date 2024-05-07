@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 
 use App\Exceptions\AlreadyExist;
 use App\Exceptions\CustomNotFound;
+use App\Models\CustomQuiz;
+use App\Models\RandomQuiz;
 use App\Models\User;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
@@ -135,29 +137,30 @@ class UserController extends Controller
 
     // Methods related with matches
 
-    public function getUserMatches($userId, bool $isMultiplayer = null, $numberItems=null)
+    public function getUserMatches($userId,  $numberItems=null)
     {
         $user = User::find($userId);
         if (!$user) throw new CustomNotFound('user not found', 404);
 
-        // with option to filter by type
         $matches = $user->matches();
-        if ($isMultiplayer) $matches->where('isMultiplayer', $isMultiplayer);
 
         $matchesPaginated = $matches->paginate($numberItems ?? 10);
         if ($matchesPaginated->isEmpty()) throw new CustomNotFound('No quizzes found');
 
         foreach ($matchesPaginated as $match) {
             $quiz = $match->quiz;
+            $match->load('quiz');
 
-            ($quiz->type === 'custom') ?
-                $match->load('customQuiz')
-                    :
-                $match->load('randomQuiz');
+            if ($quiz->type === 'custom') {
+                $customQuiz = CustomQuiz::where('id_quiz', $quiz->id_quiz)->first();
+                $match->customQuiz = $customQuiz;
+            } else {
+                $randomQuiz = RandomQuiz::where('id_quiz', $quiz->id_quiz)->first();
+                $match->randomQuiz = $randomQuiz;
+            }
 
             unset($match->pivot);
         }
-
         return response()->json($matchesPaginated);
     }
 }

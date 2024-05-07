@@ -16,6 +16,17 @@ class UserPlayMatch extends Model{
         'answers',
     ];
 
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'id_user');
+    }
+
+    public function match()
+    {
+        return $this->belongsTo(Matchs::class, 'id_match');
+    }
+
+
     public static function rules(): array
     {
         return [
