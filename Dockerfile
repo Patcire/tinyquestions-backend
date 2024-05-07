@@ -1,14 +1,23 @@
-# Utiliza la imagen base de Docker
-FROM docker:latest
+# Use the PHP base image with Apache
+FROM php:8.2-apache
 
-# Copia el archivo docker-compose.yml al contenedor
-COPY docker-compose.yml .
+# Install necessary dependencies
+RUN apt-get update && apt-get install -y git zip unzip \
+    && docker-php-ext-install pdo_mysql
 
-# Instala Docker Compose
-RUN apk add --no-cache docker-compose
+# Set up PHP server configuration
+COPY . /var/www/html
+EXPOSE 8000
 
-# Establece el directorio de trabajo
-WORKDIR /app
+# Set up MariaDB
+RUN apt-get install -y mariadb-server
 
-# Ejecuta el comando para levantar los servicios definidos en docker-compose.yml
-CMD ["docker-compose", "up"]
+# Copy the database initialization script
+COPY init.sql /docker-entrypoint-initdb.d/init.sql
+
+# Expose the MariaDB port
+EXPOSE 3306
+
+# Start both services
+CMD service mysql start && php -S 0.0.0.0:8000 -t public
+
