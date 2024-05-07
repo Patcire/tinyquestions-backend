@@ -34,7 +34,7 @@ class Quiz extends Model
     }
     public function randomQuiz()
     {
-        return $this->hasOne(CustomQuiz::class, 'id_quiz', 'id_quiz');
+        return $this->hasOne(RandomQuiz::class, 'id_quiz', 'id_quiz');
     }
 
     // rules for validation

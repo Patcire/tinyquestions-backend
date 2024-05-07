@@ -29,6 +29,16 @@ class Matchs extends Model // match is a keyworn on php, so I've used matchs isn
 
     }
 
+    public function randomQuiz()
+    {
+        return $this->belongsTo(RandomQuiz::class, 'fk_id_quiz', 'id_quiz');
+    }
+
+    public function customQuiz()
+    {
+        return $this->belongsTo(RandomQuiz::class, 'fk_id_quiz', 'id_quiz');
+    }
+
 
     // rules for validation
     public static function rulesForMatch(): array

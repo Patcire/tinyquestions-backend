@@ -146,6 +146,18 @@ class UserController extends Controller
 
         $matchesPaginated = $matches->paginate($numberItems ?? 10);
         if ($matchesPaginated->isEmpty()) throw new CustomNotFound('No quizzes found');
+
+        foreach ($matchesPaginated as $match) {
+            $quiz = $match->quiz;
+
+            ($quiz->type === 'custom') ?
+                $match->load('customQuiz')
+                    :
+                $match->load('randomQuiz');
+
+            unset($match->pivot);
+        }
+
         return response()->json($matchesPaginated);
     }
 }
