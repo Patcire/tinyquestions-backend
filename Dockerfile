@@ -19,5 +19,6 @@ COPY db-data/*.sql /docker-entrypoint-initdb.d/
 EXPOSE 3306
 
 # Start both services
-CMD service mysql start && php -S 0.0.0.0:8000 -t public
+CMD service mariadb start && php -S 0.0.0.0:8000 -t public
+
 
