@@ -101,6 +101,7 @@ Route::prefix('rand')->group(function () {
 // question CRUD
 Route::prefix('ques')->group(function () {
 
+    Route::get('/allFrom/{id}',  [QuestionController::class, 'getQuestionsFromCustomQuiz']);
     Route::get('/all/{type}',  [QuestionController::class, 'allQuestionsByType']);
     Route::get('/rand/{number}',  [QuestionController::class, 'getRandomQuestions']);
     Route::get('/{id}',  [QuestionController::class, 'getById']);

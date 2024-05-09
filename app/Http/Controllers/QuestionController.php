@@ -9,6 +9,13 @@ use Illuminate\Support\Facades\Validator;
 class QuestionController extends Controller
 {
 
+    public function getQuestionsFromCustomQuiz(int $idQuiz){
+        $results = Question::where('fk_id_quiz', $idQuiz)->get();
+        if (!$results) throw new CustomNotFound('No question found');
+
+        return response()->json($results);
+    }
+
     public function allQuestionsByType(bool $boolean): \Illuminate\Http\JsonResponse
     {
         $results = Question::where('isCustom', $boolean)->get();
