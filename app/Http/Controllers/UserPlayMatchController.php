@@ -33,8 +33,8 @@ class UserPlayMatchController extends Controller
 
     public function getUserMatches($userId, $numberItems=null)
     {
-        $userMatches = UserPlayMatch::where('id_user', $userId);
-        if (!$userMatches) throw new CustomNotFound('user not found', 404);
+        $userMatches = UserPlayMatch::where('id_user', $userId)->orderBy('date', 'desc');
+        if (!$userMatches) throw new CustomNotFound('user not found');
 
         $userMatchesPaginated = $userMatches->with('match')->paginate($numberItems ?? 10);
         if ($userMatchesPaginated->isEmpty()) throw new CustomNotFound('No matches found');
