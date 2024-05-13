@@ -25,6 +25,11 @@ class RandomQuizHasRandomQuestion extends Model
         return ['id_question', 'id_quiz'];
     }
 
+    // relationship with table questions
+    public function question()
+    {
+        return $this->belongsTo(Question::class, 'id_question');
+    }
 
     // rules for validation
     public static function rules(): array
