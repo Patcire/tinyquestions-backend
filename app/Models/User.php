@@ -16,6 +16,8 @@ class User extends Model
         'username',
         'email',
         'password',
+        'points',
+        'quizzes_resolved',
     ];
     protected $hidden = [
         'password',
