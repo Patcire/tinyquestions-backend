@@ -35,6 +35,7 @@ Route::prefix('user')->group(function () {
     // user crud
     Route::get('/all',  [UserController::class, 'allUsers']);
     Route::get('/allpag',  [UserController::class, 'allUsersPaginated']);
+    Route::get('/stats',  [UserController::class, 'allStatsPaginated']);
     Route::get('/{username}',  [UserController::class, 'getByUsername']);
     Route::post('/create',  [UserController::class, 'createUser']);
     Route::delete('/del/{username}',  [UserController::class, 'deleteByUsername']);
