@@ -31,10 +31,10 @@ class UserController extends Controller
         return response()->json($users);
     }
 
-    public function allStatsPaginated(Request $request)
+    public function allStatsPaginated(Request $request, String $order)
     {
         $page = $request->input('page', 1);
-        $users = User::orderBy('points', 'desc')->paginate(10, ['*'], 'page', $page);
+        $users = User::orderBy('points', $order)->paginate(10, ['*'], 'page', $page);
         if (!$users) throw new CustomNotFound('no users found');
         return response()->json($users);
     }
