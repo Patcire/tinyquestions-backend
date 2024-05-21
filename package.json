@@ -16,6 +16,8 @@
         "postcss": "^8.1.14"
     },
     "dependencies": {
-        "partykit": "^0.0.105"
-    }
+        "express": "^4.19.2",
+        "socket.io": "^4.7.5"
+    },
+    "type": "module"
 }

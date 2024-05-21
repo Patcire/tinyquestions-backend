@@ -11,9 +11,11 @@ services:
             - .:/var/www/html
         depends_on:
             - mariadb
+            - nodejs
         command: /bin/bash -c "apt-get update && apt-get install -y git zip unzip && docker-php-ext-install pdo_mysql && php -r \"copy('https://getcomposer.org/installer', 'composer-setup.php');\" && php composer-setup.php --install-dir=/usr/local/bin --filename=composer && php -r \"unlink('composer-setup.php');\" && composer install && php -S 0.0.0.0:8000 -t public"
         links:
             - mariadb
+            - nodejs
         networks:
             - laravel-network
 
@@ -33,7 +35,19 @@ services:
         networks:
             - laravel-network
 
+    nodejs:
+        image: node:18
+        ports:
+            - "3200:3200"
+        volumes:
+            - .:/usr/src/app
+        working_dir: /usr/src/app
+        command: /bin/bash -c "npm install && node server.js"
+        networks:
+            - laravel-network
+
 
 networks:
     laravel-network:
         driver: bridge
+
