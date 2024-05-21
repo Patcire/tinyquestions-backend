@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\MultiController;
 use App\Http\Controllers\MultiplayerMatchController;
 use App\Http\Controllers\QuizController;
 use App\Http\Controllers\RandomQuizController;
@@ -130,8 +131,6 @@ Route::prefix('has')->group(function () {
     Route::post('/create',  [RandomQuizHasRandomQuestionController::class, 'createHas']);
 
 });
-
-
 
 
 /*
