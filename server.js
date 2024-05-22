@@ -18,18 +18,13 @@ httpServer.listen(port, () => {
     console.log(`Socket.IO server running at http://localhost:${port}/`);
 })
 
-app.get('/', (req, res) => {
-    res.send('Socket.IO server is running.')
-})
-
-
-// Socket is connected
-
+// User enter the room (connected)
 io.on('connection', (socket) => {
-    console.log('socket open', socket.id)
+
+    console.log(`User connected to socket:`, socket.id)
 
     socket.on('disconnect', (reason) => {
-        console.log('user disconnected', socket.id, 'Reason:', reason);
+        console.log('user disconnected from socket:', socket.id, '-Reason:', reason);
     })
 
     socket.on('message', (msg) => {
@@ -44,11 +39,6 @@ io.on('connection', (socket) => {
 
 })
 
-// Socket shutting down
 
-//io.off('turnoff', (socket) =>{
-//
-//})
-//
 
 
