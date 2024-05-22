@@ -30,9 +30,7 @@ Route::get('/sel', function () {
     return response()->json($resultados);
 });
 
-/*
+
 Route::get('/socket.io/socket.js', function () {
     return response()->file(public_path('socket.js'));
 });
-
-*/

@@ -31,8 +31,9 @@ io.on('connection', (socket) => {
         console.log('user disconnected')
     })
 
-    socket.on('message', () => {
-        io.emit('message')
+    socket.on('message', (msg) => {
+        console.log(msg)
+        io.emit('message', msg)
     })
 
     socket.on('turnoff', () => {
