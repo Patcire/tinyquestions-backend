@@ -42,7 +42,7 @@ services:
         volumes:
             - .:/usr/src/app
         working_dir: /usr/src/app
-        command: /bin/bash -c "npm install && node server.js"
+        command: /bin/bash -c "if [ ! -d node_modules ]; then npm install; fi && node server.js"
         networks:
             - laravel-network
 
