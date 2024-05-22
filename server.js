@@ -9,7 +9,8 @@ const io = new Server(httpServer, {
     cors: {
         origin: '*',
         methods: ['GET', 'POST']
-    }
+    },
+    transports: ['websocket']
 })
 
 const port = 3200;
@@ -25,10 +26,10 @@ app.get('/', (req, res) => {
 // Socket is connected
 
 io.on('connection', (socket) => {
-    console.log('a user connected')
+    console.log('socket open', socket.id)
 
-    socket.on('disconnect', () => {
-        console.log('user disconnected')
+    socket.on('disconnect', (reason) => {
+        console.log('user disconnected', socket.id, 'Reason:', reason);
     })
 
     socket.on('message', (msg) => {
