@@ -25,30 +25,29 @@ io.on('connection', (socket) => {
 
     console.log(`User connected to socket:`, socket.id)
 
-    socket.on('joinRoom', (roomID) => {
+    const playersOnRoom = {}
 
-        socket.join(roomID)
-        console.log(`User ${socket.id} joined room ${roomID}`);
+    socket.on('joinRoom', (data) => {
+        console.log(data)
+        socket.join(data.roomID)
+        if (!rooms[data.roomID]) rooms[data.roomID] = [socket.id]
+        else if (rooms[data.roomID].length<4) rooms[data.roomID].push(socket.id)
+        else  io.to(data.roomID).emit('fullRoom', true)
 
-        !rooms[roomID] ? rooms[roomID] = [socket.id] : rooms[roomID].push(socket.id)
         console.log(rooms)
-        io.to(roomID).emit('userJoinedRoom', true, socket.id, rooms[roomID]);
-    });
+
+        io.to(data.roomID).emit('userJoinedSuccesfullyToRoom', {
+            success: true,
+            players: playersOnRoom
+        })
+    })
 
 
     socket.on('disconnect', (reason) => {
-        console.log('user disconnected from socket:', socket.id, '-Reason:', reason);
+        console.log('user disconnected from socket:', socket.id, '-Reason:', reason)
     })
 
-    socket.on('message', (msg) => {
-        console.log(msg)
-        io.emit('message', msg)
-    })
 
-    socket.on('turnoff', () => {
-        console.log('turnoff event, shutting down')
-        io.emit('closeSocketOnClient')
-    });
 
 })
 
