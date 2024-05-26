@@ -3,8 +3,8 @@ import { createServer } from 'http';
 import { Server } from 'socket.io';
 
 // Socket Config
-const app = express();
-const httpServer = createServer(app);
+const app = express()
+const httpServer = createServer(app)
 const io = new Server(httpServer, {
     cors: {
         origin: '*',
@@ -15,7 +15,7 @@ const io = new Server(httpServer, {
 
 const rooms = {}
 const playersOnRoom = []
-const port = 3200;
+const port = 3200
 httpServer.listen(port, () => {
     console.log(`Socket.IO server running at http://localhost:${port}/`);
 })
@@ -61,6 +61,10 @@ io.on('connection', (socket) => {
         console.log('EMPESO GENTE', res)
         io.to(res.roomID).emit('gameStarted', res)
     })
+
+    socket.on('playerAnsweredQuestion',(res) =>{
+        io.to(res.roomID).emit('playerAnsweredQuestion', res.success)
+    } )
 
     socket.on('disconnect', (reason) => {
 
