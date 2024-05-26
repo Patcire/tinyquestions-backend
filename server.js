@@ -26,7 +26,8 @@ io.on('connection', (socket) => {
     console.log(`User connected to socket:`, socket.id)
 
     socket.on('joinRoom', (data) => {
-        console.log(data)
+        console.log('joined')
+        console.log('data',  data)
         socket.join(data.roomID)
         if (!rooms[data.roomID]){
 
@@ -56,12 +57,15 @@ io.on('connection', (socket) => {
         })
     })
 
-
-    socket.on('disconnect', (reason) => {
-        console.log('user disconnected from socket:', socket.id, '-Reason:', reason)
+    socket.on('gameStarted', (res)=>{
+        console.log('EMPESO GENTE', res)
+        io.to(res.roomID).emit('gameStarted', res)
     })
 
+    socket.on('disconnect', (reason) => {
 
+        console.log('user disconnected from socket:', socket.id, '-Reason:', reason)
+    })
 
 })
 
