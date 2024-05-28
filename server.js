@@ -14,7 +14,8 @@ const io = new Server(httpServer, {
 })
 
 const rooms = {}
-const playersOnRoom = []
+let playersOnRoom = []
+let playersWhoAnswered = 0
 const port = 3200
 httpServer.listen(port, () => {
     console.log(`Socket.IO server running at http://localhost:${port}/`);
@@ -63,13 +64,21 @@ io.on('connection', (socket) => {
     })
 
     socket.on('playerAnsweredQuestion',(res) =>{
-        io.to(res.roomID).emit('playerAnsweredQuestion', res.success)
+        playersWhoAnswered++
+        if (playersWhoAnswered === playersOnRoom.length){
+            console.log('A MOSTRARRRR')
+            io.to(res.roomID).emit('showResultsOfQuestion', res.success)
+            playersWhoAnswered= 0
+        }
+
     } )
 
-    socket.on('disconnect', (reason) => {
-
+    socket.on('turnoff', (reason) => {
+        playersOnRoom = []
         console.log('user disconnected from socket:', socket.id, '-Reason:', reason)
     })
+
+
 
 })
 
