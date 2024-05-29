@@ -16,7 +16,9 @@ const io = new Server(httpServer, {
 const rooms = {}
 let playersOnRoom = []
 let playersWhoAnswered = 0
+let playersWhoFinished = 0
 const port = 3200
+
 httpServer.listen(port, () => {
     console.log(`Socket.IO server running at http://localhost:${port}/`);
 })
@@ -66,12 +68,22 @@ io.on('connection', (socket) => {
     socket.on('playerAnsweredQuestion',(res) =>{
         playersWhoAnswered++
         if (playersWhoAnswered === playersOnRoom.length){
-            console.log('A MOSTRARRRR')
             io.to(res.roomID).emit('showResultsOfQuestion', res.success)
             playersWhoAnswered= 0
         }
 
     } )
+
+    socket.on('playerFinish',(res) =>{
+        console.log('a player has finished')
+        playersWhoFinished++
+        if (playersWhoFinished === playersOnRoom.length){
+            io.to(res.roomID).emit('allPlayersHaveFinished')
+            playersWhoFinished=0
+        }
+
+    } )
+
 
     socket.on('turnoff', (reason) => {
         playersOnRoom = []
