@@ -12,12 +12,13 @@ const io = new Server(httpServer, {
     },
     transports: ['websocket']
 })
-
+const port = 3200
 const rooms = {}
+
 let playersOnRoom = []
 let playersWhoAnswered = 0
 let playersWhoFinished = 0
-const port = 3200
+let playersFinalResults= []
 
 httpServer.listen(port, () => {
     console.log(`Socket.IO server running at http://localhost:${port}/`);
@@ -75,11 +76,14 @@ io.on('connection', (socket) => {
     } )
 
     socket.on('playerFinish',(res) =>{
-        console.log('a player has finished')
         playersWhoFinished++
+        playersFinalResults.push(res.finalScore)
         if (playersWhoFinished === playersOnRoom.length){
-            io.to(res.roomID).emit('allPlayersHaveFinished')
+            playersFinalResults.sort((a, b) => a.value - b.value)
+            console.log(playersFinalResults)
+            io.to(res.roomID).emit('allPlayersHaveFinished', playersFinalResults)
             playersWhoFinished=0
+            playersFinalResults= []
         }
 
     } )
