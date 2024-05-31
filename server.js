@@ -77,12 +77,13 @@ io.on('connection', (socket) => {
 
     socket.on('playerFinish',(res) =>{
         playersWhoFinished++
-        playersFinalResults.push(res.finalScore)
+        playersFinalResults.push(res)
+        console.log(res)
         if (playersWhoFinished === playersOnRoom.length){
             console.log('TERMINOO')
-            //playersFinalResults.sort((a, b) => a.value - b.value)
-            console.log('orden'+playersFinalResults)
-            io.to(res.roomID).emit('allPlayersHaveFinished', playersFinalResults)
+            let sorted = playersFinalResults.sort((a, b) => a.finalScore - b.finalScore)
+            console.log('orden'+sorted)
+            io.to(res.roomID).emit('allPlayersHaveFinished', sorted)
             playersWhoFinished=0
             playersFinalResults= []
         }
