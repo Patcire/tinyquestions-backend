@@ -4,9 +4,9 @@ import { Server } from 'socket.io';
 
 // variables
 
-const rooms = {}
+let rooms = {}
 
-let playersOnRoom = []
+//let playersOnRoom = []
 let playersWhoAnswered = 0
 let playersWhoFinished = 0
 let playersFinalResults= []
@@ -14,7 +14,7 @@ let playersFinalResults= []
 // methods
 
 const repeatedUser = (data) => {
-    return playersOnRoom.some((user)=> user === data.username )
+    return rooms[data.roomID].some((user)=> user === data.username )
 }
 
 // Socket Config
@@ -49,7 +49,7 @@ io.on('connection', (socket) => {
                 username: data.username,
                 userSocket: socket.id
             }]
-            playersOnRoom.push(data.username)
+            //playersOnRoom.push(data.username)
 
         }
 
@@ -58,20 +58,21 @@ io.on('connection', (socket) => {
                 username: data.username,
                 userSocket: socket.id
             })
-            playersOnRoom.push(data.username)
+            //playersOnRoom.push(data.username)
 
 
         }
         else if (repeatedUser(data)){
             console.log('repeee')
         }
-        else  io.to(data.roomID).emit('fullRoom', true)
+        else if(rooms[data.roomID].length===4) io.to(data.roomID).emit('fullRoom', true)
+
 
         console.log('existing rooms: '+ JSON.stringify(rooms))
 
         io.to(data.roomID).emit('userJoinedSuccesfullyToRoom', {
             success: true,
-            players: playersOnRoom
+            players: rooms[data.roomID]
         })
     })
 
@@ -102,7 +103,8 @@ io.on('connection', (socket) => {
 
 
     socket.on('turnoff', (reason) => {
-        playersOnRoom = []
+        //playersOnRoom = []
+        rooms= {}
         console.log('user disconnected from socket:', socket.id, '-Reason:', reason)
     })
 
