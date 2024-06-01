@@ -4,9 +4,9 @@ import { Server } from 'socket.io';
 
 // variables
 
-let rooms = {}
+const maxPlayers = 2
 
-//let playersOnRoom = []
+let rooms = {}
 let playersWhoAnswered = 0
 let playersWhoFinished = 0
 let playersFinalResults= []
@@ -41,39 +41,46 @@ io.on('connection', (socket) => {
 
     console.log(`User connected to socket:`, socket.id)
 
+    socket.emit('maxPlayers', maxPlayers)
+
     socket.on('joinRoom', (data) => {
-        socket.join(data.roomID)
+
+        console.log('triying to join...')
+
         if (!rooms[data.roomID]){
 
+            socket.join(data.roomID)
             rooms[data.roomID] = [{
                 username: data.username,
                 userSocket: socket.id
             }]
-            //playersOnRoom.push(data.username)
-
+            console.log('succesfully join')
+            io.to(data.roomID).emit('userJoinedSuccesfullyToRoom', {
+                success: true,
+                players: rooms[data.roomID]
+            })
+            console.log('existing rooms: '+ JSON.stringify(rooms))
+            return
+        }
+        else if (repeatedUser(data)){
+            console.log('repe return 2')
+            return
         }
 
-        else if (rooms[data.roomID].length<4 && !repeatedUser(data)){
+        else if (rooms[data.roomID].length<maxPlayers ){
+            socket.join(data.roomID)
             rooms[data.roomID].push({
                 username: data.username,
                 userSocket: socket.id
             })
-            //playersOnRoom.push(data.username)
-
-
+            console.log('existing rooms: '+ JSON.stringify(rooms))
+            return
         }
-        else if (repeatedUser(data)){
-            console.log('repeee')
-        }
-        else if(rooms[data.roomID].length===4) io.to(data.roomID).emit('fullRoom', true)
+
+        else if(rooms[data.roomID].length===maxPlayers) io.to(data.roomID).emit('fullRoom', true)
 
 
-        console.log('existing rooms: '+ JSON.stringify(rooms))
 
-        io.to(data.roomID).emit('userJoinedSuccesfullyToRoom', {
-            success: true,
-            players: rooms[data.roomID]
-        })
     })
 
     socket.on('gameStarted', (res)=>{
@@ -102,10 +109,10 @@ io.on('connection', (socket) => {
     } )
 
 
-    socket.on('turnoff', (reason) => {
+    socket.on('turnoff', (data) => {
         //playersOnRoom = []
-        rooms= {}
-        console.log('user disconnected from socket:', socket.id, '-Reason:', reason)
+        const deleted = delete rooms[data.roomID]
+        console.log('room has been deleted? '+deleted)
     })
 
 
