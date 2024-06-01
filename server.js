@@ -2,7 +2,23 @@ import express from 'express';
 import { createServer } from 'http';
 import { Server } from 'socket.io';
 
+// variables
+
+const rooms = {}
+
+let playersOnRoom = []
+let playersWhoAnswered = 0
+let playersWhoFinished = 0
+let playersFinalResults= []
+
+// methods
+
+const repeatedUser = (data) => {
+    return playersOnRoom.some((user)=> user === data.username )
+}
+
 // Socket Config
+const port = 3200
 const app = express()
 const httpServer = createServer(app)
 const io = new Server(httpServer, {
@@ -12,26 +28,20 @@ const io = new Server(httpServer, {
     },
     transports: ['websocket']
 })
-const port = 3200
-const rooms = {}
 
-let playersOnRoom = []
-let playersWhoAnswered = 0
-let playersWhoFinished = 0
-let playersFinalResults= []
+
+// socket listeners/emits
 
 httpServer.listen(port, () => {
     console.log(`Socket.IO server running at http://localhost:${port}/`);
 })
 
-// User enter the room (connected)
+// User enter the server (connected)
 io.on('connection', (socket) => {
 
     console.log(`User connected to socket:`, socket.id)
 
     socket.on('joinRoom', (data) => {
-        console.log('joined')
-        console.log('data',  data)
         socket.join(data.roomID)
         if (!rooms[data.roomID]){
 
@@ -42,7 +52,8 @@ io.on('connection', (socket) => {
             playersOnRoom.push(data.username)
 
         }
-        else if (rooms[data.roomID].length<4){
+
+        else if (rooms[data.roomID].length<4 && !repeatedUser(data)){
             rooms[data.roomID].push({
                 username: data.username,
                 userSocket: socket.id
@@ -51,9 +62,12 @@ io.on('connection', (socket) => {
 
 
         }
+        else if (repeatedUser(data)){
+            console.log('repeee')
+        }
         else  io.to(data.roomID).emit('fullRoom', true)
 
-        console.log(rooms)
+        console.log('existing rooms: '+ JSON.stringify(rooms))
 
         io.to(data.roomID).emit('userJoinedSuccesfullyToRoom', {
             success: true,
@@ -62,7 +76,6 @@ io.on('connection', (socket) => {
     })
 
     socket.on('gameStarted', (res)=>{
-        console.log('EMPESO GENTE', res)
         io.to(res.roomID).emit('gameStarted', res)
     })
 
@@ -78,11 +91,8 @@ io.on('connection', (socket) => {
     socket.on('playerFinish',(res) =>{
         playersWhoFinished++
         playersFinalResults.push(res)
-        console.log(res)
         if (playersWhoFinished === playersOnRoom.length){
-            console.log('TERMINOO')
             let sorted = playersFinalResults.sort((a, b) => a.finalScore - b.finalScore)
-            console.log('orden'+sorted)
             io.to(res.roomID).emit('allPlayersHaveFinished', sorted)
             playersWhoFinished=0
             playersFinalResults= []
