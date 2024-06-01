@@ -109,10 +109,12 @@ io.on('connection', (socket) => {
     } )
 
 
-    socket.on('turnoff', (data) => {
+    socket.on('turnoff', (roomID) => {
         //playersOnRoom = []
-        const deleted = delete rooms[data.roomID]
+        console.log('room to delete: ' + roomID)
+        const deleted = delete rooms[roomID]
         console.log('room has been deleted? '+deleted)
+        console.log('so, actual rooms: '+ JSON.stringify(rooms))
     })
 
 
