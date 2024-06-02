@@ -14,7 +14,7 @@ let playersFinalResults= []
 // methods
 
 const repeatedUser = (data) => {
-    return rooms[data.roomID].some((user)=> user === data.username )
+    return rooms[data.roomID].some((user)=> user.username === data.username)
 }
 
 // Socket Config
@@ -37,7 +37,7 @@ httpServer.listen(port, () => {
 })
 
 // User enter the server (connected)
-io.on('connection', (socket) => {
+io.on('connect', (socket) => {
 
     console.log(`User connected to socket:`, socket.id)
 
@@ -45,16 +45,42 @@ io.on('connection', (socket) => {
 
     socket.on('joinRoom', (data) => {
 
-        console.log('triying to join...')
+        console.log(data.username + ' triying to join...\n')
 
         if (!rooms[data.roomID]){
-
             socket.join(data.roomID)
             rooms[data.roomID] = [{
                 username: data.username,
                 userSocket: socket.id
             }]
-            console.log('succesfully join')
+
+            console.log(data.username + 'room created and user succesfully join\n')
+
+            io.to(data.roomID).emit('userJoinedSuccesfullyToRoom', {
+                success: true,
+                players: rooms[data.roomID]
+            })
+
+            console.log('existing rooms: '+ JSON.stringify(rooms))
+            return
+        }
+
+        else if (repeatedUser(data)){
+            socket.join(data.roomID)
+            io.to(data.roomID).emit('userJoinedSuccesfullyToRoom', {
+                success: true,
+                players: rooms[data.roomID]
+            })
+            return
+        }
+
+        else if (rooms[data.roomID].length<maxPlayers ){
+            console.log('new user in town')
+            socket.join(data.roomID)
+            rooms[data.roomID].push({
+                username: data.username,
+                userSocket: socket.id
+            })
             io.to(data.roomID).emit('userJoinedSuccesfullyToRoom', {
                 success: true,
                 players: rooms[data.roomID]
@@ -62,22 +88,8 @@ io.on('connection', (socket) => {
             console.log('existing rooms: '+ JSON.stringify(rooms))
             return
         }
-        else if (repeatedUser(data)){
-            console.log('repe return 2')
-            return
-        }
 
-        else if (rooms[data.roomID].length<maxPlayers ){
-            socket.join(data.roomID)
-            rooms[data.roomID].push({
-                username: data.username,
-                userSocket: socket.id
-            })
-            console.log('existing rooms: '+ JSON.stringify(rooms))
-            return
-        }
-
-        else if(rooms[data.roomID].length===maxPlayers) io.to(data.roomID).emit('fullRoom', true)
+        else if(rooms[data.roomID].length===maxPlayers) io.to(socket.id).emit('fullRoom', true)
 
 
 
@@ -89,7 +101,7 @@ io.on('connection', (socket) => {
 
     socket.on('playerAnsweredQuestion',(res) =>{
         playersWhoAnswered++
-        if (playersWhoAnswered === playersOnRoom.length){
+        if (playersWhoAnswered === rooms[res.roomID].length){
             io.to(res.roomID).emit('showResultsOfQuestion', res.success)
             playersWhoAnswered= 0
         }
@@ -99,7 +111,7 @@ io.on('connection', (socket) => {
     socket.on('playerFinish',(res) =>{
         playersWhoFinished++
         playersFinalResults.push(res)
-        if (playersWhoFinished === playersOnRoom.length){
+        if (playersWhoFinished === rooms[res.roomID].length){
             let sorted = playersFinalResults.sort((a, b) => a.finalScore - b.finalScore)
             io.to(res.roomID).emit('allPlayersHaveFinished', sorted)
             playersWhoFinished=0
@@ -110,14 +122,15 @@ io.on('connection', (socket) => {
 
 
     socket.on('turnoff', (roomID) => {
-        //playersOnRoom = []
         console.log('room to delete: ' + roomID)
         const deleted = delete rooms[roomID]
         console.log('room has been deleted? '+deleted)
         console.log('so, actual rooms: '+ JSON.stringify(rooms))
     })
 
-
+    socket.on('disconnect', () => {
+        console.log('User disconnected')
+    })
 
 })
 
