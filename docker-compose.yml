@@ -7,11 +7,12 @@ services:
       - "8100:8100"
     volumes:
       - .:/var/www/html
+    working_dir: /var/www/html
     depends_on:
       - mariadb
     environment:
       - DB_HOST=mariadb
-    command: sh -c "apt-get update && apt-get install -y git && curl -sS https://getcomposer.org/installer | php && php composer.phar install && php artisan serve --host=0.0.0.0 --port=8100"
+    command: sh -c "composer install && php artisan serve --host=0.0.0.0 --port=8100"
     networks:
       - coolify_net
 
@@ -22,8 +23,8 @@ services:
     volumes:
       - ./db-data:/var/lib/mysql
     environment:
-      - MYSQL_ROOT_PASSWORD=user
-      - MYSQL_DATABASE=tinyq
+      - MYSQL_ROOT_PASSWORD=contraseñaRoot
+      - MYSQL_DATABASE=nombreDeTuBaseDeDatos
     networks:
       - coolify_net
 
@@ -31,6 +32,8 @@ services:
     image: node:18
     ports:
       - "3200:3200"
+    volumes:
+      - .:/usr/src/app
     working_dir: /usr/src/app
     command: sh -c "npm install && node server.js"
     depends_on:
