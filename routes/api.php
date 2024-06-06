@@ -35,6 +35,7 @@ Route::prefix('user')->group(function () {
 
     // user crud
     Route::get('/all',  [UserController::class, 'allUsers']);
+    Route::get('/count',  [UserController::class, 'countUsers']);
     Route::get('/allpag',  [UserController::class, 'allUsersPaginated']);
     Route::get('/stats/{order}',  [UserController::class, 'allStatsPaginated']);
     Route::get('/{username}',  [UserController::class, 'getByUsername']);

@@ -24,6 +24,13 @@ class UserController extends Controller
         return response()->json($users);
     }
 
+    public function countUsers()
+    {
+        $userCount = User::count();
+        if ($userCount === 0) throw new CustomNotFound('error: not users found');
+        return response()->json(['count' => $userCount]);
+    }
+
     public function allUsersPaginated(Request $request)
     {
         $page = $request->input('page', 1);
@@ -34,7 +41,7 @@ class UserController extends Controller
     public function allStatsPaginated(Request $request, String $order)
     {
         $page = $request->input('page', 1);
-        $users = User::orderBy('points', $order)->paginate(10, ['*'], 'page', $page);
+        $users = User::orderBy('points', $order)->paginate(4, ['*'], 'page', $page);
         if (!$users) throw new CustomNotFound('no users found');
         return response()->json($users);
     }
