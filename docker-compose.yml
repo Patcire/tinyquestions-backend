@@ -6,7 +6,7 @@ services:
     ports:
       - "8100:8100"
     volumes:
-      - ./ruta/a/tu/proyecto:/ruta/en/el/contenedor
+      - .:/var/www/html
     depends_on:
       - mariadb
     environment:
@@ -31,8 +31,7 @@ services:
     image: node:18
     ports:
       - "3200:3200"
-    volumes:
-      - ./ruta/a/tu/proyecto:/ruta/en/el/contenedor
+    working_dir: /usr/src/app
     command: "npm install && node server.js"
     depends_on:
       - mariadb
