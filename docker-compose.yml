@@ -5,7 +5,7 @@ services:
   laravel:
     image: php:8.2-apache
     ports:
-      - "8100:8100"
+      - "8000:8000"
     volumes:
       - .:/var/www/html
     depends_on:
@@ -20,7 +20,6 @@ services:
 
   mariadb:
     image: mysql
-    command: --default-authentication-plugin=mysql_native_password  # Cambio aquí
     restart: always
     ports:
       - "3306:3306"
