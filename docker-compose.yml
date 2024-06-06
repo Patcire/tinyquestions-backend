@@ -28,18 +28,6 @@ services:
     networks:
       - coolify_net
 
-  nodejs:
-    image: node:18
-    ports:
-      - "3200:3200"
-    volumes:
-      - .:/usr/src/app
-    command: "node server.js"
-    depends_on:
-      - mariadb
-    networks:
-      - coolify_net
-
 networks:
   coolify_net:
     driver: bridge
