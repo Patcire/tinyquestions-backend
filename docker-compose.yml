@@ -5,7 +5,7 @@ services:
   laravel:
     image: php:8.2-apache
     ports:
-      - "8000:8000"
+      - "8100:8100"
     volumes:
       - .:/var/www/html
       - composer:/root/.composer  # Volumen para almacenar las dependencias de Composer
