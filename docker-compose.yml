@@ -16,19 +16,6 @@ services:
       - db_data:/var/lib/mysql
     command: --default-authentication-plugin=mysql_native_password
 
-  laravel:
-    image: php:8.2-apache
-    container_name: laravel_app
-    ports:
-      - "8000:80"
-    volumes:
-      - .:/var/www/html
-    depends_on:
-      - db
-    environment:
-      APACHE_DOCUMENT_ROOT: /var/www/html/public
-    command: /bin/bash -c "apt-get update && apt-get install -y git zip unzip && docker-php-ext-install pdo_mysql && php -r \"copy('https://getcomposer.org/installer', 'composer-setup.php');\" && php composer-setup.php --install-dir=/usr/local/bin --filename=composer && php -r \"unlink('composer-setup.php');\" && if [ ! -f /var/www/html/composer.json ]; then echo '{\"require\": {}}' > /var/www/html/composer.json; fi && composer install && apache2-foreground"
-
 volumes:
   db_data:
     driver: local
