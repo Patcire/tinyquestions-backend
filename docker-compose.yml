@@ -1,33 +1,50 @@
 version: '3.1'
 
 services:
-  db:
-    image: mysql:8.0
-    container_name: mysql_db
+
+  laravel:
+    image: php:8.2-apache
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/var/www/html
+    depends_on:
+      - mariadb
+      - nodejs
+    command: /bin/bash -c "apt-get update && apt-get install -y git zip unzip && docker-php-ext-install pdo_mysql && php -r \"copy('https://getcomposer.org/installer', 'composer-setup.php');\" && php composer-setup.php --install-dir=/usr/local/bin --filename=composer && php -r \"unlink('composer-setup.php');\" && composer install && php -S 0.0.0.0:8000 -t public"
+    links:
+      - mariadb
+      - nodejs
+    networks:
+      - laravel-network
+
+  mariadb:
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password  # Cambio aquí
     restart: always
-    environment:
-      MYSQL_ROOT_PASSWORD: example
-      MYSQL_DATABASE: mydatabase
-      MYSQL_USER: user
-      MYSQL_PASSWORD: password
     ports:
       - "3306:3306"
     volumes:
-      - db_data:/var/lib/mysql
-    command: --default-authentication-plugin=mysql_native_password
-    
- laravel:
-    image: php:8.2-apache
+      - ./db-data:/docker-entrypoint-initdb.d
+    environment:
+      MYSQL_DATABASE: tinyq
+      MYSQL_USER: user
+      MYSQL_PASSWORD: user
+      MYSQL_ROOT_PASSWORD: user
+    networks:
+      - laravel-network
+
+  nodejs:
+    image: node:18
     ports:
-        - "8000:8000"
+      - "3200:3200"
     volumes:
-        - .:/var/www/html
-    depends_on:
-        - mariadb
-        - nodejs
-    command: /bin/bash -c "apt-get update && apt-get install -y git zip unzip && docker-php-ext-install pdo_mysql && php -r \"copy('https://getcomposer.org/installer', 'composer-setup.php');\" && php composer-setup.php --install-dir=/usr/local/bin --filename=composer && php -r \"unlink('composer-setup.php');\" && composer install && php -S 0.0.0.0:8000 -t public"
-    links:
-        - db
-volumes:
-  db_data:
-    driver: local
+      - .:/usr/src/app
+    working_dir: /usr/src/app
+    command: /bin/bash -c "if [ ! -d node_modules ]; then npm install; fi && node server.js"
+    networks:
+      - laravel-network
+
+networks:
+  laravel-network:
+    driver: bridge
