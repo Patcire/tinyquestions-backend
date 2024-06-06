@@ -12,19 +12,23 @@ services:
       - mariadb
     environment:
       - DB_HOST=mariadb
-    command: sh -c "apt-get update && apt-get install -y git && php -r 'copy("https://getcomposer.org/installer", "composer-setup.php");' && php composer-setup.php --install-dir=/usr/local/bin --filename=composer && rm composer-setup.php && composer install && php artisan serve --host=0.0.0.0 --port=8100"
+    command: sh -c "apt-get update && apt-get install -y git && php -r 'copy(\"https://getcomposer.org/installer\", \"composer-setup.php\");' && php composer-setup.php --install-dir=/usr/local/bin --filename=composer && rm composer-setup.php && composer install && php artisan serve --host=0.0.0.0 --port=8100"
     networks:
       - coolify_net
 
   mariadb:
-    image: mariadb
-    ports:
-      - "3306:3306"
-    volumes:
-      - ./db-data:/var/lib/mysql
-    environment:
-      - MYSQL_ROOT_PASSWORD=contraseñaRoot
-      - MYSQL_DATABASE=nombreDeTuBaseDeDatos
+     image: mysql
+        command: --default-authentication-plugin=caching_sha2_password
+        restart: always
+        ports:
+            - "3306:3306"
+        volumes:
+            - ./db-data:/docker-entrypoint-initdb.d
+        environment:
+            MYSQL_DATABASE: tinyq
+            MYSQL_USER: user
+            MYSQL_PASSWORD: user
+            MYSQL_ROOT_PASSWORD: user
     networks:
       - coolify_net
 
