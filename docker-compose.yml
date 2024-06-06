@@ -21,12 +21,21 @@ services:
     image: php:8.2-apache
     container_name: laravel_app
     ports:
-      - "8100:8100"
+      - "8000:8000"
     volumes:
       - .:/var/www/html
     depends_on:
       - db
-    command: /bin/bash -c "apt-get update && apt-get install -y git zip unzip && docker-php-ext-install pdo_mysql && php -r \"copy('https://getcomposer.org/installer', 'composer-setup.php');\" && php composer-setup.php --install-dir=/usr/local/bin --filename=composer && php -r \"unlink('composer-setup.php');\" && composer install && php -S 0.0.0.0:8000 -t public"
+      - nodejs
+    command: /bin/bash -c "apt-get update && apt-get install -y git zip unzip && docker-php-ext-install pdo_mysql && php -r \"copy('https://getcomposer.org/installer', 'composer-setup.php');\" && php composer-setup.php --install-dir=/usr/local/bin --filename=composer && php -r \"unlink('composer-setup.php');\" && if [ ! -f /var/www/html/composer.json ]; then echo '{\"require\": {}}' > /var/www/html/composer.json; fi && composer install && php -S 0.0.0.0:8000 -t public"
+
+  nodejs:
+    image: node:14
+    container_name: nodejs_app
+    volumes:
+      - .:/usr/src/app
+    working_dir: /usr/src/app
+    command: /bin/bash -c "npm install && npm run dev"
 
 volumes:
   db_data:
