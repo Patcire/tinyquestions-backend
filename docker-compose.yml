@@ -1,76 +1,52 @@
+ersion: '3.1'
+
 services:
-  laravel:
-    image: 'php:8.2-apache'
-    ports:
-      - '8100:8100'
-    volumes:
-      - '/data/coolify/applications/rg8g8g8:/var/www/html'
-    depends_on:
-      - mariadb
-      - nodejs
-    command: '/bin/bash -c "apt-get update && apt-get install -y git zip unzip && docker-php-ext-install pdo_mysql && php -r \"copy(''https://getcomposer.org/installer'', ''composer-setup.php'');\" && php composer-setup.php --install-dir=/usr/local/bin --filename=composer && php -r \"unlink(''composer-setup.php'');\" && composer install && php -S 0.0.0.0:8000 -t public"'
-    links:
-      - mariadb
-      - nodejs
-    networks:
-      laravel-network: null
-      rg8g8g8: null
-    labels:
-      - coolify.managed=true
-      - coolify.version=4.0.0-beta.294
-      - coolify.applicationId=4
-      - coolify.type=application
-      - coolify.name=laravel-rg8g8g8-153013730163
-      - coolify.pullRequestId=0
-    restart: unless-stopped
-    container_name: laravel-rg8g8g8-153013730163
-  mariadb:
-    image: mysql
-    command: '--default-authentication-plugin=caching_sha2_password'
-    restart: always
-    ports:
-      - '3306:3306'
-    volumes:
-      - '/data/coolify/applications/rg8g8g8/db-data:/docker-entrypoint-initdb.d'
-    environment:
-      MYSQL_DATABASE: tinyq
-      MYSQL_USER: user
-      MYSQL_PASSWORD: user
-      MYSQL_ROOT_PASSWORD: user
-    networks:
-      laravel-network: null
-      rg8g8g8: null
-    labels:
-      - coolify.managed=true
-      - coolify.version=4.0.0-beta.294
-      - coolify.applicationId=4
-      - coolify.type=application
-      - coolify.name=mariadb-rg8g8g8-153013730712
-      - coolify.pullRequestId=0
-    container_name: mariadb-rg8g8g8-153013730712
-  nodejs:
-    image: 'node:18'
-    ports:
-      - '3200:3200'
-    volumes:
-      - '/data/coolify/applications/rg8g8g8:/usr/src/app'
-    working_dir: /usr/src/app
-    command: '/bin/bash -c "if [ ! -d node_modules ]; then npm install; fi && node server.js"'
-    networks:
-      laravel-network: null
-      rg8g8g8: null
-    labels:
-      - coolify.managed=true
-      - coolify.version=4.0.0-beta.294
-      - coolify.applicationId=4
-      - coolify.type=application
-      - coolify.name=nodejs-rg8g8g8-153013731177
-      - coolify.pullRequestId=0
-    restart: unless-stopped
-    container_name: nodejs-rg8g8g8-153013731177
-volumes: {  }
+
+    laravel:
+        image: php:8.2-apache
+        ports:
+            - "8100:8100"
+        volumes:
+            - .:/var/www/html
+        depends_on:
+            - mariadb
+            - nodejs
+        command: /bin/bash -c "apt-get update && apt-get install -y git zip unzip && docker-php-ext-install pdo_mysql && php -r \"copy('https://getcomposer.org/installer', 'composer-setup.php');\" && php composer-setup.php --install-dir=/usr/local/bin --filename=composer && php -r \"unlink('composer-setup.php');\" && composer install && php -S 0.0.0.0:8000 -t public"
+        links:
+            - mariadb
+            - nodejs
+        networks:
+            - laravel-network
+
+    mariadb:
+        image: mysql
+        command: --default-authentication-plugin=caching_sha2_password
+        restart: always
+        ports:
+            - "3306:3306"
+        volumes:
+            - ./db-data:/docker-entrypoint-initdb.d
+        environment:
+            MYSQL_DATABASE: tinyq
+            MYSQL_USER: user
+            MYSQL_PASSWORD: user
+            MYSQL_ROOT_PASSWORD: user
+        networks:
+            - laravel-network
+
+    nodejs:
+        image: node:18
+        ports:
+            - "3200:3200"
+        volumes:
+            - .:/usr/src/app
+        working_dir: /usr/src/app
+        command: /bin/bash -c "if [ ! -d node_modules ]; then npm install; fi && node server.js"
+        networks:
+            - laravel-network
+
+
 networks:
-  laravel-network: null
-  rg8g8g8:
-    name: rg8g8g8
-    external: true
+    laravel-network:
+        driver: bridge
+
