@@ -12,7 +12,7 @@ services:
       - mariadb
     environment:
       - DB_HOST=mariadb
-    command: sh -c "composer install && php artisan serve --host=0.0.0.0 --port=8100"
+    command: sh -c "apt-get update && apt-get install -y git && php -r 'copy("https://getcomposer.org/installer", "composer-setup.php");' && php composer-setup.php --install-dir=/usr/local/bin --filename=composer && rm composer-setup.php && composer install && php artisan serve --host=0.0.0.0 --port=8100"
     networks:
       - coolify_net
 
@@ -44,3 +44,5 @@ services:
 networks:
   coolify_net:
     driver: bridge
+
+    
