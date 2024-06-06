@@ -11,7 +11,7 @@ services:
       - mariadb
     environment:
       - DB_HOST=mariadb
-    command: "composer install && php artisan serve --host=0.0.0.0 --port=8100"
+    command: sh -c "apt-get update && apt-get install -y git && curl -sS https://getcomposer.org/installer | php && php composer.phar install && php artisan serve --host=0.0.0.0 --port=8100"
     networks:
       - coolify_net
 
@@ -22,8 +22,8 @@ services:
     volumes:
       - ./db-data:/var/lib/mysql
     environment:
-      - MYSQL_ROOT_PASSWORD=contraseñaRoot
-      - MYSQL_DATABASE=nombreDeTuBaseDeDatos
+      - MYSQL_ROOT_PASSWORD=user
+      - MYSQL_DATABASE=tinyq
     networks:
       - coolify_net
 
@@ -32,7 +32,7 @@ services:
     ports:
       - "3200:3200"
     working_dir: /usr/src/app
-    command: "npm install && node server.js"
+    command: sh -c "npm install && node server.js"
     depends_on:
       - mariadb
     networks:
