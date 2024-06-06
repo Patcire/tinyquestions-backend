@@ -2,15 +2,16 @@ version: '3.8'
 
 services:
   laravel:
-    image: php:8.2-apache
+    image: nombreDeTuImagenLaravel
     ports:
       - "8100:8100"
     volumes:
-      - .:/var/www/html
+      - ./ruta/a/tu/proyecto:/ruta/en/el/contenedor
     depends_on:
       - mariadb
     environment:
       - DB_HOST=mariadb
+    command: "composer install && php artisan serve --host=0.0.0.0 --port=8100"
     networks:
       - coolify_net
 
@@ -21,14 +22,23 @@ services:
     volumes:
       - ./db-data:/var/lib/mysql
     environment:
-            MYSQL_DATABASE: tinyq
-            MYSQL_USER: user
-            MYSQL_PASSWORD: user
-            MYSQL_ROOT_PASSWORD: user
+      - MYSQL_ROOT_PASSWORD=contraseñaRoot
+      - MYSQL_DATABASE=nombreDeTuBaseDeDatos
+    networks:
+      - coolify_net
+
+  nodejs:
+    image: node:18
+    ports:
+      - "3200:3200"
+    volumes:
+      - ./ruta/a/tu/proyecto:/ruta/en/el/contenedor
+    command: "npm install && node server.js"
+    depends_on:
+      - mariadb
     networks:
       - coolify_net
 
 networks:
   coolify_net:
     driver: bridge
-
