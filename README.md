@@ -2,8 +2,10 @@
 ____
 
 ---
+
 Para ver la documentación completa de la app visita:
-**https://internal-buckaroo-a26.notion.site/tinyquestions-8518a1c3128342eeb06610fc12508847?pvs=4**
+**[Documentación Completa](https://internal-buckaroo-a26.notion.site/tinyquestions-8518a1c3128342eeb06610fc12508847?pvs=4)**
+
 ---
 
 1 - Despliegue en local
@@ -36,7 +38,7 @@ docker-compose up
 =
 ***
 
-![IMPORTANT]
+![WARNING]
 > Todas las rutas deben comenzar con: http://localhost:8001/ para probar en local
 
 | Endpoint                   | Método | Descripción                                    |
@@ -91,7 +93,7 @@ docker-compose up
 =
 ---
 
-![diagram for my database]([/00-images-readme/diagrama-actual.png](https://internal-buckaroo-a26.notion.site/image/https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2F93ad78ff-5f34-4de9-a9e6-55c3ebc2407f%2Fa983da5f-e76c-4bf7-a26e-53a34ae9113e%2FUntitled.png?table=block&id=ccdfc173-a369-4a39-ba45-b92c53d50b8f&spaceId=93ad78ff-5f34-4de9-a9e6-55c3ebc2407f&width=2000&userId=&cache=v2))
+![diagram for my database](https://internal-buckaroo-a26.notion.site/image/https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2F93ad78ff-5f34-4de9-a9e6-55c3ebc2407f%2Fa983da5f-e76c-4bf7-a26e-53a34ae9113e%2FUntitled.png?table=block&id=ccdfc173-a369-4a39-ba45-b92c53d50b8f&spaceId=93ad78ff-5f34-4de9-a9e6-55c3ebc2407f&width=2000&userId=&cache=v2)
 
 
 
