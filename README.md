@@ -42,8 +42,8 @@ docker-compose up
 =
 ***
 
-> ![WARNING]
-> Todas las rutas deben comenzar con: http://localhost:8001/ para probar en local
+> [!WARNING]
+> Todas las rutas deben comenzar con: http://localhost:8001/ para probar en el despliegue local
 
 | Endpoint                   | Método | Descripción                                    |
 |----------------------------|--------|------------------------------------------------|
