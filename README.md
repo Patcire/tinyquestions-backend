@@ -2,9 +2,9 @@
 ____
 ![logo](https://internal-buckaroo-a26.notion.site/image/https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2F93ad78ff-5f34-4de9-a9e6-55c3ebc2407f%2F2230fd22-eaa8-497b-b687-168763c19a30%2Ftinyquestionscover.webp?table=block&id=8518a1c3-1283-42ee-b066-10fc12508847&spaceId=93ad78ff-5f34-4de9-a9e6-55c3ebc2407f&width=2000&userId=&cache=v2)
 ---
-[!NOTE]
-Para ver la documentación completa de la app visita:
-**[Documentación Completa](https://internal-buckaroo-a26.notion.site/tinyquestions-8518a1c3128342eeb06610fc12508847?pvs=4)**
+> [!NOTE]
+> Para ver la documentación completa de la app visita:
+> **[Documentación Completa](https://internal-buckaroo-a26.notion.site/tinyquestions-8518a1c3128342eeb06610fc12508847?pvs=4)**
 
 ---
 0 - Estructura
