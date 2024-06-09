@@ -42,7 +42,7 @@ Route::prefix('user')->group(function () {
     Route::post('/create',  [UserController::class, 'createUser']);
     Route::delete('/del/{username}',  [UserController::class, 'deleteByUsername']);
     Route::patch('/upd/{username}',  [UserController::class, 'updateUser']);
-    Route::patch('/stats/{username}',  [UserController::class, 'updateStats']);
+    Route::patch('/userstat/{username}',  [UserController::class, 'updateStats']);
     Route::post('/login',  [UserController::class, 'login']);
 
     // user - match get methods (many-to-many), rest of crud on UserPlayMatchController
