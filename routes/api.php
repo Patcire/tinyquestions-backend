@@ -124,7 +124,6 @@ Route::prefix('li')->group(function () {
 // random_quiz_has_random_question CRUD
 Route::prefix('has')->group(function () {
 
-    Route::get('/all',  [RandomQuizHasRandomQuestionController::class, 'allQuizHasQuestions']);
     Route::get('/{id_quiz}',  [RandomQuizHasRandomQuestionController::class, 'QuizHasQuestions']);
     Route::post('/create',  [RandomQuizHasRandomQuestionController::class, 'createHas']);
 
