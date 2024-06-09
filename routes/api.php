@@ -37,6 +37,7 @@ Route::prefix('user')->group(function () {
     Route::get('/all',  [UserController::class, 'allUsers']);
     Route::get('/count',  [UserController::class, 'countUsers']);
     Route::get('/allpag',  [UserController::class, 'allUsersPaginated']);
+    Route::get('/pos/{id_user}',  [UserController::class, 'getUserPosition']);
     Route::get('/stats/{order}',  [UserController::class, 'allStatsPaginated']);
     Route::get('/{username}',  [UserController::class, 'getByUsername']);
     Route::post('/create',  [UserController::class, 'createUser']);

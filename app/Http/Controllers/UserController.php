@@ -31,6 +31,27 @@ class UserController extends Controller
         return response()->json(['count' => $userCount]);
     }
 
+    public function getUserPosition($username)
+    {
+        $user = User::where('username', $username)->first();
+
+        if (!$user) {
+            throw new CustomNotFound('error: not user found.');
+        }
+
+        $usersSorted = User::orderBy('points', 'asc')->get();
+
+        $position = $usersSorted->search(function ($item) use ($user) {
+            return $item->id === $user->id;
+        });
+
+        if ($position === false) {
+            throw new CustomNotFound('Error: usuario no encontrado en la lista ordenada.');
+        }
+
+        return response()->json(['position' => $position + 1]);
+    }
+
     public function allUsersPaginated(Request $request)
     {
         $page = $request->input('page', 1);
