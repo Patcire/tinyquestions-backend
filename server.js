@@ -4,7 +4,7 @@ import { Server } from 'socket.io';
 
 // variables
 
-const maxPlayers = 2
+const maxPlayers = 4
 
 let rooms = {}
 let playersWhoAnswered = 0

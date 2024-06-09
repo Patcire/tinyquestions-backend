@@ -55,8 +55,6 @@ Route::prefix('match')->group(function () {
 
     Route::get('/all',  [MatchController::class, 'allMatches']);
     Route::get('/allpag',  [MatchController::class, 'allMatchesPaginated']);
-    Route::get('/bytype/{type}',  [MatchController::class, 'allByType']);
-    Route::get('/relinfo/{id}',  [MatchController::class, 'getMatchRelatedInfo']);
     Route::post('/create',  [MatchController::class, 'createMatch']);
 
 });
@@ -67,7 +65,6 @@ Route::prefix('play')->group(function () {
 
     Route::get('/{id}/{number_items}',  [UserPlayMatchController::class, 'getUserMatches']);
     Route::post('/create',  [UserPlayMatchController::class, 'createUserPlayMatch']);
-    //Route::get('/create',  [UserPlayMatchController::class, 'createUserPlayMatch']);
 
 });
 
