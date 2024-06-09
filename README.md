@@ -57,7 +57,7 @@ docker-compose up
 | /api/user/count                       | GET    | Cuenta el número de usuarios                                              |
 | user/allpag?page={number}             | GET    | Obtiene todos los usuarios paginados                                      |
 | /api/user/create                      | POST   | Crea un nuevo usuario                                                     |
-| /api/user/stats/{username}            | PATCH  | Actualiza estadísticas de un usuario                                      |
+| /api/user/userstat/{username}         | PATCH  | Actualiza estadísticas de un usuario                                      |
 | /api/user/login                       | POST   | Inicia sesión de un usuario                                               |
 | /api/match/create                     | POST   | Crea un nuevo partido                                                     |
 | /api/play/{id_user}/{number_items}    | GET    | Obtiene partidos jugados por un usuario                                   |
