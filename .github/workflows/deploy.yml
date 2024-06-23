@@ -1,0 +1,26 @@
+name: CDeploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install sshpass
+        run: sudo apt-get install -y sshpass
+
+      - name: Set execute permissions on deploy.sh
+        run: sshpass -p ${{ secrets.VPS_PASSWORD }} ssh -o StrictHostKeyChecking=no root@159.69.150.218 'chmod +x /root/tinyquestions-backend/deploy.sh'
+
+      - name: Copy files via SCP
+        run: sshpass -p ${{ secrets.VPS_PASSWORD }} scp -o StrictHostKeyChecking=no -r ./* root@159.69.150.218:/root/tinyquestions-backend
+
+      - name: Execute deploy script
+        run: sshpass -p ${{ secrets.VPS_PASSWORD }} ssh -o StrictHostKeyChecking=no root@159.69.150.218 'bash -s' < ./deploy.sh
