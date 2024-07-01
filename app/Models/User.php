@@ -5,8 +5,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Tymon\JWTAuth\Contracts\JWTSubject;
 
-class User extends Model
+class User extends Model implements JWTSubject
 {
     // model config
     protected $table = 'users';
@@ -53,6 +54,18 @@ class User extends Model
             'email' => 'sometimes|required|string|max:100|unique:users,email',
             'password' => 'sometimes|string|max:30',
         ];
+    }
+
+    // for auth
+
+    public function getJWTIdentifier()
+    {
+        return $this->getKey();
+    }
+
+    public function getJWTCustomClaims()
+    {
+        return [];
     }
 
 

@@ -13,9 +13,59 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Mockery\Exception;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class UserController extends Controller
 {
+    // auth
+    public function createUser(Request $request)
+    {
+
+        $validator = Validator::make($request->only(['username', 'email', 'password']), User::rulesForUsers());
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 422);
+        }
+
+        $data = $request->only([
+            'username',
+            'email',
+            'password',
+        ]);
+
+
+        $data['password'] = bcrypt($data['password']);
+
+        $user = User::create($data);
+        if (!$user) throw new Exception('error: couldnt create the user', 500);
+
+        $token = JWTAuth::fromUser($user);
+
+        return response()->json(['user'=>$user, 'token'=>$token], 201);
+    }
+
+    public function login(Request $request)
+    {
+        $username = $request->input('username');
+        $password = $request->input('password');
+
+        $user = User::where('username', $username)->first();
+
+        if (!Hash::check($password, $user->password)) {
+            return response()->json(['message' => 'not match'], 404);
+        }
+        if (Hash::check($password, $user->password)) {
+            return response()->json([
+                'message' => 'success login',
+                'user' => [
+                    'id_user' => $user->id_user,
+                    'username' => $user->username,
+                    'points' => $user->points,
+                    'quizzes_resolved' => $user->quizzes_resolved
+                ]
+            ]);
+        }
+    }
+
     // basic CRUD
     public function allUsers()
     {
@@ -67,29 +117,6 @@ class UserController extends Controller
         return response()->json($users);
     }
 
-    public function createUser(Request $request)
-    {
-
-        $validator = Validator::make($request->only(['username', 'email', 'password']), User::rulesForUsers());
-        if ($validator->fails()) {
-            return response()->json($validator->errors(), 422);
-        }
-
-        $data = $request->only([
-            'username',
-            'email',
-            'password',
-        ]);
-
-
-        $data['password'] = bcrypt($data['password']);
-
-        $user = User::create($data);
-        if (!$user) throw new Exception('error: couldnt create the user', 500);
-
-        return response()->json($user, 201);
-    }
-
     public function getByUsername($username)
     {
         try{
@@ -98,30 +125,6 @@ class UserController extends Controller
         }
         catch (ModelNotFoundException $e){
             throw new CustomNotFound('User not found');
-        }
-    }
-
-    public function login(Request $request)
-    {
-        $username = $request->input('username');
-        $password = $request->input('password');
-        // Imprimir los valores para depuración
-
-        $user = User::where('username', $username)->first();
-
-        if (!Hash::check($password, $user->password)) {
-            return response()->json(['message' => 'not match'], 404);
-        }
-        if (Hash::check($password, $user->password)) {
-            return response()->json([
-                'message' => 'success login',
-                'user' => [
-                    'id_user' => $user->id_user,
-                    'username' => $user->username,
-                    'points' => $user->points,
-                    'quizzes_resolved' => $user->quizzes_resolved
-                ]
-            ]);
         }
     }
 
