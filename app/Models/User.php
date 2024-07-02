@@ -6,6 +6,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Tymon\JWTAuth\Contracts\JWTSubject;
+use Illuminate\Contracts\Auth\Authenticatable;
 
 class User extends Model implements JWTSubject
 {
@@ -58,6 +59,7 @@ class User extends Model implements JWTSubject
 
     // for auth
 
+    use \Illuminate\Auth\Authenticatable;
     public function getJWTIdentifier()
     {
         return $this->getKey();
@@ -68,6 +70,14 @@ class User extends Model implements JWTSubject
         return [];
     }
 
+    public function getAuthIdentifierName()
+    {
+        return 'id_user';
+    }
 
+    public function getAuthPassword()
+    {
+        return $this->password;
+    }
 
 }

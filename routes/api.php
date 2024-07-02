@@ -33,22 +33,27 @@ use Illuminate\Support\Facades\Route;
 // users CRUD
 Route::prefix('user')->group(function () {
 
-    // user crud
-    Route::get('/all',  [UserController::class, 'allUsers']);
-    Route::get('/count',  [UserController::class, 'countUsers']);
-    Route::get('/allpag',  [UserController::class, 'allUsersPaginated']);
-    Route::get('/pos/{id_user}',  [UserController::class, 'getUserPosition']);
-    Route::get('/stats/{order}',  [UserController::class, 'allStatsPaginated']);
-    Route::get('/{username}',  [UserController::class, 'getByUsername']);
-    Route::post('/create',  [UserController::class, 'createUser']);
-    Route::delete('/del/{username}',  [UserController::class, 'deleteByUsername']);
-    Route::patch('/upd/{username}',  [UserController::class, 'updateUser']);
-    Route::patch('/userstat/{username}',  [UserController::class, 'updateStats']);
     Route::post('/login',  [UserController::class, 'login']);
+    Route::post('/create',  [UserController::class, 'createUser']);
 
-    // user - match get methods (many-to-many), rest of crud on UserPlayMatchController
-    Route::get('/allmat/{id}/{type?}',  [UserController::class, 'getUserMatches']);
+    // middleware to protect routes
+    Route::middleware(['auth:api'])->group(function () {
+        // user crud
+        Route::get('/pos/{username}',  [UserController::class, 'getUserPosition']);
+        Route::get('/stats/{order}',  [UserController::class, 'allStatsPaginated']);
+        Route::get('/{username}',  [UserController::class, 'getByUsername']);
+        Route::patch('/upd/{username}',  [UserController::class, 'updateUser']);
+        Route::patch('/userstat/{username}',  [UserController::class, 'updateStats']);
+        Route::delete('/del/{username}',  [UserController::class, 'deleteByUsername']);
+        // for future admin
+        Route::get('/all',  [UserController::class, 'allUsers']); // admin
+        Route::get('/count',  [UserController::class, 'countUsers']); // admin
+        Route::get('/allpag',  [UserController::class, 'allUsersPaginated']); // admin
 
+        // user - match get methods (many-to-many)
+        Route::get('/allmat/{userId}/{numberItems?}',  [UserController::class, 'getUserMatches']);
+
+    });
 });
 
 // matches CRUD
