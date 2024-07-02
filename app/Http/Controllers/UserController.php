@@ -53,6 +53,8 @@ class UserController extends Controller
         if (!Hash::check($password, $user->password)) {
             return response()->json(['message' => 'not match'], 404);
         }
+
+        $token = JWTAuth::fromUser($user);
         if (Hash::check($password, $user->password)) {
             return response()->json([
                 'message' => 'success login',
@@ -61,7 +63,8 @@ class UserController extends Controller
                     'username' => $user->username,
                     'points' => $user->points,
                     'quizzes_resolved' => $user->quizzes_resolved
-                ]
+                ],
+                'token' => $token
             ]);
         }
     }
