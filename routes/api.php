@@ -38,6 +38,11 @@ Route::prefix('user')->group(function () {
 
     // middleware to protect routes
     Route::middleware(['auth:api'])->group(function () {
+        // for future admin
+        Route::get('/all',  [UserController::class, 'allUsers']); // admin
+        Route::get('/count',  [UserController::class, 'countUsers']); // admin
+        Route::get('/allpag',  [UserController::class, 'allUsersPaginated']); // admin
+
         // user crud
         Route::get('/pos/{username}',  [UserController::class, 'getUserPosition']);
         Route::get('/stats/{order}',  [UserController::class, 'allStatsPaginated']);
@@ -45,10 +50,6 @@ Route::prefix('user')->group(function () {
         Route::patch('/upd/{username}',  [UserController::class, 'updateUser']);
         Route::patch('/userstat/{username}',  [UserController::class, 'updateStats']);
         Route::delete('/del/{username}',  [UserController::class, 'deleteByUsername']);
-        // for future admin
-        Route::get('/all',  [UserController::class, 'allUsers']); // admin
-        Route::get('/count',  [UserController::class, 'countUsers']); // admin
-        Route::get('/allpag',  [UserController::class, 'allUsersPaginated']); // admin
 
         // user - match get methods (many-to-many)
         Route::get('/allmat/{userId}/{numberItems?}',  [UserController::class, 'getUserMatches']);
@@ -61,16 +62,20 @@ Route::prefix('match')->group(function () {
 
     Route::get('/all',  [MatchController::class, 'allMatches']);
     Route::get('/allpag',  [MatchController::class, 'allMatchesPaginated']);
-    Route::post('/create',  [MatchController::class, 'createMatch']);
 
+    Route::middleware(['auth:api'])->group(function () {
+        Route::post('/create', [MatchController::class, 'createMatch']);
+    });
 });
 
 
 // user_play_match CRUD
 Route::prefix('play')->group(function () {
 
-    Route::get('/{id}/{number_items}',  [UserPlayMatchController::class, 'getUserMatches']);
-    Route::post('/create',  [UserPlayMatchController::class, 'createUserPlayMatch']);
+    Route::middleware(['auth:api'])->group(function () {
+        Route::get('/{id}/{number_items}',  [UserPlayMatchController::class, 'getUserMatches']);
+        Route::post('/create',  [UserPlayMatchController::class, 'createUserPlayMatch']);
+    });
 
 });
 
@@ -79,7 +84,10 @@ Route::prefix('quiz')->group(function () {
 
     Route::get('/all',  [QuizController::class, 'getAllQuizzes']);
     Route::get('/{id}',  [QuizController::class, 'getQuizById']);
-    Route::post('/create',  [QuizController::class, 'createQuiz']);
+
+    Route::middleware(['auth:api'])->group(function () {
+        Route::post('/create',  [QuizController::class, 'createQuiz']);
+    });
 
 });
 
@@ -89,9 +97,12 @@ Route::prefix('cust')->group(function () {
     Route::get('/all',  [CustomQuizController::class, 'allCustoms']);
     Route::get('/all/{id_user}',  [CustomQuizController::class, 'allCustomsByUser']);
     Route::get('/{id}',  [CustomQuizController::class, 'getCustom']);
-    Route::post('/create',  [CustomQuizController::class, 'createCustom']);
-    Route::delete('/del/{id}',  [CustomQuizController::class, 'deleteCustom']);
-    Route::patch('/upd/{id}',  [CustomQuizController::class, 'updateCustom']);
+    Route::middleware(['auth:api'])->group(function () {
+        Route::post('/create',  [CustomQuizController::class, 'createCustom']);
+        Route::delete('/del/{id}',  [CustomQuizController::class, 'deleteCustom']);
+        Route::patch('/upd/{id}',  [CustomQuizController::class, 'updateCustom']);
+    });
+
 });
 
 // random_quizzes CRUD
@@ -103,7 +114,6 @@ Route::prefix('rand')->group(function () {
 });
 
 
-
 // question CRUD
 Route::prefix('ques')->group(function () {
 
@@ -111,20 +121,22 @@ Route::prefix('ques')->group(function () {
     Route::get('/all/{type}',  [QuestionController::class, 'allQuestionsByType']);
     Route::get('/rand/{number}',  [QuestionController::class, 'getRandomQuestions']);
     Route::get('/{id}',  [QuestionController::class, 'getById']);
-    Route::post('/create',  [QuestionController::class, 'createQuestion']);
-    Route::patch('/upd/{id}',  [QuestionController::class, 'updateQuestion']);
-    Route::delete('/del/{id}',  [QuestionController::class, 'deleteQuestion']);
+    Route::middleware(['auth:api'])->group(function () {
+        Route::post('/create',  [QuestionController::class, 'createQuestion']);
+        Route::patch('/upd/{id}',  [QuestionController::class, 'updateQuestion']);
+        Route::delete('/del/{id}',  [QuestionController::class, 'deleteQuestion']);
+    });
 
 });
 
 // likes CRUD
 Route::prefix('li')->group(function () {
-
-    Route::get('/by/{fk_id_quiz}', [LikeController::class, 'likedBy']);
-    Route::get('/likes/{fk_id_user}/', [LikeController::class, 'userLikes']);
-    Route::post('/give', [LikeController::class, 'giveLike']);
-    Route::delete('/dis/{fk_id_user}/{fk_id_quiz}', [LikeController::class, 'dislike']);
-
+    Route::middleware(['auth:api'])->group(function () {
+        Route::get('/by/{fk_id_quiz}', [LikeController::class, 'likedBy']);
+        Route::get('/likes/{fk_id_user}/', [LikeController::class, 'userLikes']);
+        Route::post('/give', [LikeController::class, 'giveLike']);
+        Route::delete('/dis/{fk_id_user}/{fk_id_quiz}', [LikeController::class, 'dislike']);
+    });
 });
 
 // random_quiz_has_random_question CRUD
