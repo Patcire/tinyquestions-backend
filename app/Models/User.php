@@ -6,7 +6,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Tymon\JWTAuth\Contracts\JWTSubject;
-use Illuminate\Contracts\Auth\Authenticatable;
 
 class User extends Model implements JWTSubject
 {
@@ -23,11 +22,13 @@ class User extends Model implements JWTSubject
     ];
     protected $hidden = [
         'password',
+        'is_admin'
     ];
 
     protected $attributes = [
         'points' => 0,
         'quizzes_resolved' => 0,
+        'is_admin' => false
     ];
 
 

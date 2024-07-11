@@ -15,7 +15,9 @@ CREATE TABLE `users` (
             `email` VARCHAR(100) UNIQUE NOT NULL,
             `password` VARCHAR(200) NOT NULL,
             `points` INT DEFAULT 0,
-            `quizzes_resolved` INT DEFAULT 0
+            `quizzes_resolved` INT DEFAULT 0,
+            `url` VARCHAR(300),
+            `is_admin` BOOLEAN DEFAULT FALSE
 );
 
 CREATE TABLE `followers` (
@@ -115,7 +117,6 @@ CREATE TABLE `random_quiz_has_random_question` (
         FOREIGN KEY (`id_question`) REFERENCES `questions` (`id_question`) ON DELETE CASCADE
 
 );
-
 
 
 

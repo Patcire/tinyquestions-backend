@@ -36,13 +36,8 @@ Route::prefix('user')->group(function () {
     Route::post('/login',  [UserController::class, 'login']);
     Route::post('/create',  [UserController::class, 'createUser']);
 
-    // middleware to protect routes
-    Route::middleware(['auth:api'])->group(function () {
-        // for future admin
-        Route::get('/all',  [UserController::class, 'allUsers']); // admin
-        Route::get('/count',  [UserController::class, 'countUsers']); // admin
-        Route::get('/allpag',  [UserController::class, 'allUsersPaginated']); // admin
 
+    Route::middleware(['auth:api'])->group(function () {
         // user crud
         Route::get('/pos/{username}',  [UserController::class, 'getUserPosition']);
         Route::get('/stats/{order}',  [UserController::class, 'allStatsPaginated']);
@@ -55,6 +50,14 @@ Route::prefix('user')->group(function () {
         Route::get('/allmat/{userId}/{numberItems?}',  [UserController::class, 'getUserMatches']);
 
     });
+
+    Route::middleware(['auth:sanctum', 'admin'])->group(function () {
+        Route::get('/all', [UserController::class, 'allUsers']); // admin
+        Route::get('/count', [UserController::class, 'countUsers']); // admin
+        Route::get('/allpag', [UserController::class, 'allUsersPaginated']); // admin
+    });
+
+
 });
 
 // matches CRUD

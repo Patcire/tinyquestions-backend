@@ -1,6 +1,6 @@
-INSERT INTO users (username, email, password, points, quizzes_resolved) VALUES
-        ('usuario1', 'usuario1@example.com', 'contraseña1', 0, 0),
-        ('usuario2', 'usuario2@example.com', 'contraseña2', 0, 0);
+INSERT INTO users (username, email, password, points, quizzes_resolved, is_admin) VALUES
+        ('usuario1', 'usuario1@example.com', 'contraseña1', 0, 0, false),
+        ('usuario2', 'usuario2@example.com', 'contraseña2', 0, 0, false);
 
 INSERT INTO quizzes (number_questions, clock, time, type) VALUES
   (10, TRUE, 60, 'custom'),
