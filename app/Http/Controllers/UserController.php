@@ -4,6 +4,7 @@
 namespace App\Http\Controllers;
 
 use App\Exceptions\AlreadyExist;
+use App\Exceptions\CustomException;
 use App\Exceptions\CustomNotFound;
 use App\Models\CustomQuiz;
 use App\Models\RandomQuiz;
@@ -183,6 +184,13 @@ class UserController extends Controller
     {
         $user = User::find($userId);
         if (!$user) throw new CustomNotFound('user not found', 404);
+
+        $authUser = auth('api')->user();
+        //return response()->json(($authUser->id_user) === intval($userId) );
+
+        if (!$authUser || ($authUser->id_user) !== intval($userId)){
+            throw new CustomException('not authorized', 403);
+        }
 
         $matches = $user->matches();
 

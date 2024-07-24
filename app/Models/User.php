@@ -19,6 +19,7 @@ class User extends Model implements JWTSubject
         'password',
         'points',
         'quizzes_resolved',
+        'url'
     ];
     protected $hidden = [
         'password',
