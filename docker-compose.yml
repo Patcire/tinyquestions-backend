@@ -7,13 +7,13 @@ services:
         ports:
           - "8000:80"
         volumes:
-          - .:/app
+          - .:/
         environment:
           - WEB_DOCUMENT_ROOT=/app/public
         depends_on:
           - mariadb
           - nodejs
-        command: /bin/bash -c "cd /app && composer install && php artisan serve --host=0.0.0.0 --port=8000"
+        command: /bin/bash -c "composer install && php artisan serve --host=0.0.0.0 --port=8000"
         networks:
           - laravel-network
 
