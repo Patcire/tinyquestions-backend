@@ -7,10 +7,7 @@ services:
         ports:
           - "8000:8000"
         volumes:
-           - type: volume
-            source: ./var/www
-            target: /var/www
-            is_directory: true
+          - "./var/www"
         environment:
           - WEB_DOCUMENT_ROOT=/app/public
         depends_on:
