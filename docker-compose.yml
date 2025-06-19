@@ -13,7 +13,7 @@ services:
         depends_on:
           - mariadb
           - nodejs
-        command: /bin/bash -c "cd /var/www && ls && composer install && php artisan serve --host=0.0.0.0 --port=8000"
+        command: /bin/bash -c "cd /app && ls && composer install && php artisan serve --host=0.0.0.0 --port=8000"
         networks:
           - laravel-network
 
