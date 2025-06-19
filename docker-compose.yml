@@ -6,10 +6,10 @@ services:
         image: webdevops/php-apache-dev:8.2
         ports:
           - "8000:8000"
+        volumes:
+          - .:/var/www
         environment:
           - WEB_DOCUMENT_ROOT=/app/public
-        volumes:
-          - .:/app/storage
         depends_on:
           - mariadb
           - nodejs
