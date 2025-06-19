@@ -9,7 +9,7 @@ services:
         environment:
           - WEB_DOCUMENT_ROOT=/app/public
         volumes:
-          - .:/app/storage
+          - .:app/storage
         depends_on:
           - mariadb
           - nodejs
