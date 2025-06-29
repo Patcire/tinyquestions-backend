@@ -6,12 +6,14 @@ services:
         image: webdevops/php-apache-dev:8.2
         ports:
           - "8000:8000"
+        environment:
+          - WEB_DOCUMENT_ROOT=/app/public
         volumes:
-          - .:/var/www
+          - .:/app/storage
         depends_on:
           - mariadb
           - nodejs
-        command: /bin/bash -c "cd var/www && ls"
+        command: /bin/bash -c "cd app/storage && ls && composer install && php artisan serve --host=0.0.0.0 --port=8000"
         networks:
           - laravel-network
 
