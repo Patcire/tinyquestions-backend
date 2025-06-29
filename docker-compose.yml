@@ -8,8 +8,6 @@ services:
           - "8000:8000"
         volumes:
           - .:/var/www
-        environment:
-          - WEB_DOCUMENT_ROOT=/app/public
         depends_on:
           - mariadb
           - nodejs
